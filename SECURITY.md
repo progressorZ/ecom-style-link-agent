@@ -2,7 +2,7 @@
 
 ## 报告问题
 
-请不要在公开 Issue 中提交账号、Cookie、token、店铺编号、二维码、订单、地址或真实商品资料。安全问题请通过 [GitHub 私密漏洞报告](https://github.com/wzn7423162/ecom-style-link-agent/security/advisories/new) 联系维护者 @wzn7423162。请勿在公开 Discussion 或 Pull Request 中披露漏洞细节。
+请不要在公开 Issue 中提交账号、Cookie、token、店铺编号、二维码、订单、地址或真实商品资料。安全问题请通过 [GitHub 私密漏洞报告](https://github.com/progressorZ/ecom-style-link-agent/security/advisories/new) 联系维护者 @progressorZ。请勿在公开 Discussion 或 Pull Request 中披露漏洞细节。
 
 ## 当前安全边界
 
