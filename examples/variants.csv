@@ -1,0 +1,4 @@
+product_code,merchant_sku,color_key,color_label,size_key,size_label,group_price_cny,single_price_cny,stock,enabled,sku_asset_id
+A001,A001-BLK-S,black,黑色,s,S,129.00,139.00,20,true,asset-sku-black
+A001,A001-BLK-M,black,黑色,m,M,129.00,139.00,30,true,asset-sku-black
+A001,A001-IVR-M,ivory,米白,m,M,139.00,149.00,15,true,asset-sku-ivory

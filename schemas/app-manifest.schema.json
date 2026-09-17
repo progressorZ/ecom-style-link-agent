@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ecom-listing-agent:schema:app-manifest:1.0",
+  "title": "Ecom Listing Agent Independent App Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "displayName", "version", "status", "adapter", "dataNamespace", "distributions", "safety"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"},
+    "displayName": {"type": "string", "minLength": 1, "maxLength": 100},
+    "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "status": {"enum": ["proposal", "experimental", "beta", "stable", "deprecated"]},
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "categoryKeys"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "categoryKeys": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "dataNamespace": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+    "distributions": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["target", "format", "status", "buildCommand"],
+        "properties": {
+          "target": {"enum": ["windows-x64", "macos-universal"]},
+          "format": {"const": "portable-zip"},
+          "status": {"enum": ["planned", "experimental", "beta", "stable"]},
+          "buildCommand": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["humanReviewRequired", "automaticPublish"],
+      "properties": {
+        "humanReviewRequired": {"const": true},
+        "automaticPublish": {"const": false}
+      }
+    }
+  }
+}

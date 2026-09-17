@@ -1,0 +1,103 @@
+openapi: 3.1.0
+info:
+  title: Ecom Style Link Agent Mock API
+  version: 0.1.0
+  description: |
+    开发联调契约。所有响应为 mock 环境，禁止把其商品 ID、草稿或结果作为真实拼多多数据。
+servers:
+  - url: http://127.0.0.1:8787
+paths:
+  /health:
+    get:
+      summary: 检查模拟 API 状态
+      responses: { '200': { description: Mock API 正常 } }
+  /api/v1/shops:
+    get:
+      summary: 获取模拟店铺
+      responses: { '200': { description: 模拟店铺列表 } }
+  /api/v1/shops/{shopId}/templates:
+    get:
+      summary: 获取店铺类目模板
+      parameters: [ { $ref: '#/components/parameters/ShopId' } ]
+      responses: { '200': { description: 模拟模板 } }
+  /api/v1/products/{productId}:
+    get:
+      summary: 获取开发商品夹具
+      parameters: [ { $ref: '#/components/parameters/ProductId' } ]
+      responses: { '200': { description: 商品和规格 } }
+  /api/v1/listings:
+    post:
+      summary: 创建刊登编辑草稿
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/CreateListing' } } }
+      responses: { '201': { description: 编辑态刊登 }, '422': { description: 商品或店铺不匹配 } }
+  /api/v1/listings/{listingId}/validate:
+    post:
+      summary: 运行业务预检
+      parameters: [ { $ref: '#/components/parameters/ListingId' } ]
+      responses: { '200': { description: executable 和问题列表 } }
+  /api/v1/listings/{listingId}/prepare:
+    post:
+      summary: 创建异步模拟填表任务
+      parameters: [ { $ref: '#/components/parameters/ListingId' } ]
+      responses: { '202': { description: 模拟任务已排队 }, '409': { description: 已有准备任务执行中 }, '422': { description: 预检未通过 } }
+  /api/v1/jobs/{jobId}:
+    get:
+      summary: 查询模拟任务
+      parameters: [ { $ref: '#/components/parameters/JobId' } ]
+      responses: { '200': { description: 任务和事件 } }
+  /api/v1/listings/{listingId}/review:
+    get:
+      summary: 获取冻结预期与独立模拟字段存储的差异（非平台回读）
+      parameters: [ { $ref: '#/components/parameters/ListingId' } ]
+      responses: { '200': { description: 模拟审核数据 }, '409': { description: 草稿未完成 } }
+  /api/v1/listings/{listingId}/reviews:
+    post:
+      summary: 写入内部审核决定
+      parameters: [ { $ref: '#/components/parameters/ListingId' } ]
+      requestBody:
+        required: true
+        content: { application/json: { schema: { type: object, required: [decision], properties: { decision: { enum: [approved, returned] } } } } }
+      responses: { '200': { description: 审核结果 }, '409': { description: 必须先准备当前版本且核对通过的草稿；退回后需重新准备 }, '422': { description: 审核决定无效 } }
+  /api/v1/listings/{listingId}/check-outcome:
+    post:
+      summary: 模拟发布结果核查
+      parameters: [ { $ref: '#/components/parameters/ListingId' } ]
+      responses: { '200': { description: 固定返回 outcome_unknown，不生成真实链接 } }
+components:
+  parameters:
+    ShopId: { name: shopId, in: path, required: true, schema: { type: string } }
+    ProductId: { name: productId, in: path, required: true, schema: { type: string } }
+    ListingId: { name: listingId, in: path, required: true, schema: { type: string } }
+    JobId: { name: jobId, in: path, required: true, schema: { type: string } }
+  schemas:
+    CreateListing:
+      type: object
+      required: [productId, shopId]
+      properties:
+        productId: { type: string }
+        shopId: { type: string }
+        title: { type: string }
+        logisticsProfileKey: { type: string }
+        sizeTemplate: { type: string, description: 尺码模板展示键；真实平台值待适配层验证 }
+        sizeSystem: { enum: [通用, 中国码, 欧码, 英码, 德码, 美码, 均码] }
+        syncSizeChartToDetail: { type: boolean }
+        referencePriceMinor: { type: integer, description: 商品参考价，人民币分，当前页面要求大于最大单买价 }
+        inventoryDeduction: { enum: [payment_success] }
+        multiItemDiscount:
+          type: object
+          properties:
+            count: { type: integer, minimum: 2 }
+            discount: { type: number, exclusiveMinimum: 0, maximum: 10 }
+        offers:
+          type: array
+          items:
+            type: object
+            required: [variantId, groupPriceMinor, singlePriceMinor, stock]
+            properties:
+              variantId: { type: string }
+              enabled: { type: boolean, default: true }
+              groupPriceMinor: { type: integer, description: 拼单价，人民币分 }
+              singlePriceMinor: { type: integer, description: 单买价，人民币分 }
+              stock: { type: integer, minimum: 0 }

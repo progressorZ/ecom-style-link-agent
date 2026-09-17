@@ -1,0 +1,14 @@
+{
+  "scope": "pdd-tshirt-detail-images-v1",
+  "productCode": "AUTO-IMAGE-20260908-01",
+  "images": [
+    {
+      "id": "front",
+      "path": "examples/test-images/front.png"
+    },
+    {
+      "id": "back",
+      "path": "examples/test-images/back.png"
+    }
+  ]
+}

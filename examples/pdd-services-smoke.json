@@ -1,0 +1,15 @@
+{
+  "scope": "pdd-tshirt-services-v1",
+  "productCode": "AUTO-MATRIX-20260908-02",
+  "expected": {
+    "goodsType": "普通商品",
+    "secondHand": "非二手",
+    "customized": "非定制",
+    "presale": "非预售",
+    "inventoryDeduction": "payment_success",
+    "groupSize": 2,
+    "sevenDayReturns": true,
+    "nearbySameDay": false,
+    "authenticityPromise": false
+  }
+}

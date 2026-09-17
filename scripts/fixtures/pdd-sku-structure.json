@@ -1,0 +1,127 @@
+{
+  "headers": [
+    "颜色分类",
+    "尺码",
+    "库存",
+    "拼单价(元)",
+    "单买价(元)",
+    "预览图",
+    "规格编码",
+    "状态"
+  ],
+  "rows": [
+    {
+      "cells": [
+        {
+          "text": "白色",
+          "rowSpan": 2,
+          "colSpan": 1,
+          "inputCount": 0,
+          "imageCount": 0
+        },
+        {
+          "text": "S",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 0,
+          "imageCount": 0
+        },
+        {
+          "text": "",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 1,
+          "imageCount": 0
+        },
+        {
+          "text": "",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 1,
+          "imageCount": 0
+        },
+        {
+          "text": "",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 1,
+          "imageCount": 0
+        },
+        {
+          "text": "本地上传",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 0,
+          "imageCount": 0
+        },
+        {
+          "text": "",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 1,
+          "imageCount": 0
+        },
+        {
+          "text": "已启用",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 0,
+          "imageCount": 0
+        }
+      ]
+    },
+    {
+      "cells": [
+        {
+          "text": "M",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 0,
+          "imageCount": 0
+        },
+        {
+          "text": "",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 1,
+          "imageCount": 0
+        },
+        {
+          "text": "",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 1,
+          "imageCount": 0
+        },
+        {
+          "text": "",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 1,
+          "imageCount": 0
+        },
+        {
+          "text": "本地上传",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 0,
+          "imageCount": 0
+        },
+        {
+          "text": "",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 1,
+          "imageCount": 0
+        },
+        {
+          "text": "已启用",
+          "rowSpan": 1,
+          "colSpan": 1,
+          "inputCount": 0,
+          "imageCount": 0
+        }
+      ]
+    }
+  ]
+}

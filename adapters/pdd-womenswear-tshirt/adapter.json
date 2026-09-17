@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0",
+  "id": "pdd.browser.cn.womenswear-tshirt",
+  "displayName": "拼多多中国站女装 T 恤浏览器 Adapter",
+  "version": "0.1.0",
+  "status": "beta",
+  "platform": {
+    "id": "pdd",
+    "displayName": "拼多多",
+    "site": "CN",
+    "accessMode": "browser"
+  },
+  "compatibility": {
+    "core": ">=0.1.0 <0.2.0",
+    "node": ">=24.15.0",
+    "operatingSystems": ["windows", "macos"]
+  },
+  "categories": [
+    {
+      "key": "womenswear.tshirt",
+      "displayPath": "女装/女士精品 > T恤 > T恤",
+      "status": "beta",
+      "lastVerifiedAt": "2026-09-13",
+      "evidenceDocs": ["docs/52-mvp-handoff.md", "docs/43-shop-identity.md", "docs/46-real-draft-save-reopen.md"]
+    }
+  ],
+  "capabilities": [
+    {"id": "basic", "status": "beta"},
+    {"id": "attributes", "status": "beta", "notes": "仅支持清单中已验证的 T 恤属性和值"},
+    {"id": "variants", "status": "beta", "notes": "中国码及完整颜色×尺码矩阵"},
+    {"id": "pricing-inventory", "status": "beta"},
+    {"id": "size-chart", "status": "beta"},
+    {"id": "main-images", "status": "beta"},
+    {"id": "variant-images", "status": "beta"},
+    {"id": "detail-images", "status": "beta"},
+    {"id": "video", "status": "unsupported"},
+    {"id": "logistics", "status": "beta", "notes": "现有运费模板与已支持发货时效"},
+    {"id": "services", "status": "beta", "notes": "服务承诺只读核对，差异由商家处理"},
+    {"id": "save-draft", "status": "beta"},
+    {"id": "reopen-draft", "status": "beta"},
+    {"id": "readback", "status": "beta"},
+    {"id": "publish", "status": "unsupported", "notes": "最终发布始终由商家操作"},
+    {"id": "batch", "status": "unsupported"}
+  ],
+  "entrypoints": {
+    "layout": "legacy-root",
+    "compiler": "scripts/pdd-package-plan.mjs",
+    "workflow": "scripts/pdd-single-workflow.mjs"
+  },
+  "safety": {
+    "humanReviewRequired": true,
+    "automaticPublish": false
+  },
+  "maintainers": ["@wzn7423162"]
+}

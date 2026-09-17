@@ -1,0 +1,40 @@
+title: "[想法] "
+labels: ["proposal"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 想法类型
+      options:
+        - 新电商平台
+        - 新类目或表单
+        - 导入与批量处理
+        - 用户体验
+        - 架构与开发工具
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: manual-work
+    attributes:
+      label: 当前最耗时的工作
+      description: 描述谁在什么页面重复做什么，以及大致频率和耗时。
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-result
+    attributes:
+      label: 希望达到的结果
+      description: 说明哪些步骤应自动完成，哪些步骤仍由人工确认。
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: 平台、站点与类目
+      description: 如果适用，请给出明确平台、国家或地区、后台入口和叶子类目。
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 可提供的脱敏依据
+      description: 可填写官方文档、脱敏字段清单或真实验证条件；不要提交凭据和商家身份。

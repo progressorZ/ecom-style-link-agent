@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProductPackage v0.1 development input contract",
+  "description": "Runtime structural input contract. Structural validity does not imply business or platform publishability.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "product", "variants", "assets", "sizeCharts", "listing", "evidence"],
+  "properties": {
+    "schemaVersion": {"const": "0.1"},
+    "product": {"$ref": "#/$defs/product"},
+    "variants": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/variant"}},
+    "assets": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/asset"}},
+    "sizeCharts": {"type": "array", "items": {"$ref": "#/$defs/sizeChart"}},
+    "listing": {"$ref": "#/$defs/listing"},
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}}
+  },
+  "$defs": {
+    "key": {"type": "string", "minLength": 1},
+    "product": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "productCode", "name", "categoryKey", "revision", "attributes"],
+      "properties": {
+        "id": {"$ref": "#/$defs/key"},
+        "productCode": {"$ref": "#/$defs/key"},
+        "name": {"$ref": "#/$defs/key"},
+        "categoryKey": {"$ref": "#/$defs/key"},
+        "brand": {"type": ["string", "null"]},
+        "revision": {"type": "integer", "minimum": 1},
+        "attributes": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              {"type": "string"}, {"type": "number"}, {"type": "boolean"},
+              {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+            ]
+          }
+        }
+      }
+    },
+    "variant": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "merchantSku", "colorKey", "colorLabel", "sizeKey", "sizeLabel"],
+      "properties": {
+        "id": {"$ref": "#/$defs/key"},
+        "merchantSku": {"$ref": "#/$defs/key"},
+        "colorKey": {"$ref": "#/$defs/key"},
+        "colorLabel": {"$ref": "#/$defs/key"},
+        "sizeKey": {"$ref": "#/$defs/key"},
+        "sizeLabel": {"$ref": "#/$defs/key"}
+      }
+    },
+    "asset": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "sourcePath", "role", "order", "reviewStatus"],
+      "properties": {
+        "id": {"$ref": "#/$defs/key"},
+        "sourcePath": {"$ref": "#/$defs/key"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "role": {"enum": ["main", "detail", "sku"]},
+        "colorKey": {"$ref": "#/$defs/key"},
+        "order": {"type": "integer", "minimum": 0},
+        "reviewStatus": {"enum": ["pending", "approved", "rejected"]}
+      }
+    },
+    "sizeCell": {
+      "oneOf": [
+        {"type": "number", "exclusiveMinimum": 0},
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["min", "max"],
+          "properties": {
+            "min": {"type": "number", "exclusiveMinimum": 0},
+            "max": {"type": "number", "exclusiveMinimum": 0}
+          }
+        }
+      ]
+    },
+    "sizeChart": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "columns", "rows"],
+      "properties": {
+        "id": {"$ref": "#/$defs/key"},
+        "kind": {"enum": ["garment", "body_recommendation"]},
+        "columns": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["key", "label", "unit"],
+            "properties": {
+              "key": {"$ref": "#/$defs/key"},
+              "label": {"$ref": "#/$defs/key"},
+              "unit": {"enum": ["cm", "kg"]}
+            }
+          }
+        },
+        "rows": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["sizeKey", "values"],
+            "properties": {
+              "sizeKey": {"$ref": "#/$defs/key"},
+              "values": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/sizeCell"}}
+            }
+          }
+        }
+      }
+    },
+    "price": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "amountMinor", "currency"],
+      "properties": {
+        "role": {"type": "string", "pattern": "^(sale|platform:[A-Za-z0-9_.-]+)$"},
+        "amountMinor": {"type": "integer", "minimum": 0},
+        "currency": {"const": "CNY"}
+      }
+    },
+    "offer": {
+      "type": "object", "additionalProperties": false,
+      "required": ["variantId", "prices", "stock", "enabled", "skuAssetId"],
+      "properties": {
+        "variantId": {"$ref": "#/$defs/key"},
+        "prices": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/price"}},
+        "stock": {"type": "integer", "minimum": 0},
+        "enabled": {"type": "boolean"},
+        "skuAssetId": {"$ref": "#/$defs/key"}
+      }
+    },
+    "listing": {
+      "type": "object", "additionalProperties": false,
+      "required": ["platform", "shopKey", "categoryBindingKey", "title", "revision", "offers", "pricing", "inventoryConfirmedAt", "logistics"],
+      "properties": {
+        "platform": {"const": "pdd"},
+        "shopKey": {"$ref": "#/$defs/key"},
+        "categoryBindingKey": {"$ref": "#/$defs/key"},
+        "title": {"$ref": "#/$defs/key"},
+        "revision": {"type": "integer", "minimum": 1},
+        "sizeConfiguration": {
+          "type": "object", "additionalProperties": false,
+          "required": ["templateKey", "system", "selectedSizeKeys", "syncChartToDetail"],
+          "properties": {
+            "templateKey": {"$ref": "#/$defs/key"},
+            "system": {"enum": ["general", "cn", "eu", "uk", "de", "us", "one_size"]},
+            "selectedSizeKeys": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}},
+            "syncChartToDetail": {"type": "boolean"}
+          }
+        },
+        "offers": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/offer"}},
+        "pricing": {
+          "type": "object", "additionalProperties": false,
+          "required": ["referenceAmountMinor", "multiItemDiscount"],
+          "properties": {
+            "referenceAmountMinor": {"type": "integer", "minimum": 0},
+            "multiItemDiscount": {
+              "type": "object", "additionalProperties": false,
+              "required": ["count", "discount"],
+              "properties": {
+                "count": {"type": "integer", "minimum": 2},
+                "discount": {"type": "number", "exclusiveMinimum": 0, "maximum": 10}
+              }
+            }
+          }
+        },
+        "services": {
+          "type": "object", "additionalProperties": false,
+          "description": "当前 PDD 普通现货服务核验配置；不自动开通服务承诺",
+          "required": ["goodsType", "secondHand", "customized", "presale", "groupSize", "sevenDayReturns", "nearbySameDay", "authenticityPromise"],
+          "properties": {
+            "goodsType": {"const": "普通商品"},
+            "secondHand": {"const": "非二手"},
+            "customized": {"const": "非定制"},
+            "presale": {"const": "非预售"},
+            "groupSize": {"const": 2},
+            "sevenDayReturns": {"const": true},
+            "nearbySameDay": {"type": "boolean"},
+            "authenticityPromise": {"type": "boolean"}
+          }
+        },
+        "inventoryConfirmedAt": {"type": "string", "format": "date-time"},
+        "logistics": {
+          "type": "object", "additionalProperties": false,
+          "required": ["profileKey", "inventoryDeduction", "shippingPromise"],
+          "properties": {
+            "profileKey": {"$ref": "#/$defs/key"},
+            "inventoryDeduction": {"const": "payment_success"},
+            "shippingPromise": {"enum": ["48h_handover", "24h_handover", "same_day_handover"]}
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["fieldPath", "source", "confirmed", "reference"],
+      "properties": {
+        "fieldPath": {"type": "string", "pattern": "^/"},
+        "source": {"enum": ["manual", "supplier", "label_ocr", "vision", "template"]},
+        "confirmed": {"type": "boolean"},
+        "reference": {"$ref": "#/$defs/key"}
+      }
+    }
+  }
+}

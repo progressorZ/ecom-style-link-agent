@@ -1,0 +1,99 @@
+{
+  "category": "女装/女士精品 > T恤 > T恤",
+  "capturedAt": "2026-09-12",
+  "notice": "历史实店采集候选，非完整或实时平台枚举；可手动填写平台新选项。",
+  "options": {
+    "sleeveLength": [
+      "长袖",
+      "九分袖",
+      "七分袖",
+      "五分袖/中袖",
+      "短袖",
+      "无袖"
+    ],
+    "collar": [
+      "圆领"
+    ],
+    "fleece": [
+      "不加绒"
+    ],
+    "gramsPerSquareMeter": [
+      "300g/m²及以上",
+      "160g/m²以下",
+      "160g/m²（含）—180g/m²（不含）",
+      "180g/m²（含）—200g/m²（不含）",
+      "200g/m²（含）—220g/m²（不含）",
+      "220g/m²（含）—240g/m²（不含）",
+      "240g/m²（含）—260g/m²（不含）",
+      "260g/m²（含）—280g/m²（不含）",
+      "280g/m²（含）—300g/m²（不含）"
+    ],
+    "yarnCount": [
+      "21S",
+      "32S",
+      "40S",
+      "60S",
+      "80S",
+      "100S"
+    ],
+    "fit": [
+      "常规"
+    ],
+    "garmentLength": [
+      "常规款"
+    ],
+    "sleeveType": [
+      "常规"
+    ],
+    "ageRange": [
+      "中青年（26-40周岁）"
+    ],
+    "listingSeason": [
+      "2026年秋季"
+    ],
+    "primaryStyle": [
+      "简约通勤"
+    ],
+    "secondaryStyle": [
+      "简约"
+    ],
+    "fabricName": [
+      "棉"
+    ],
+    "material": [
+      "棉"
+    ],
+    "composition": [
+      "95%及以上"
+    ]
+  },
+  "relations": {
+    "primaryStyle": {
+      "简约通勤": {
+        "secondaryStyle": [
+          "简约"
+        ]
+      }
+    },
+    "fabricName": {
+      "棉": {
+        "material": [
+          "棉"
+        ],
+        "composition": [
+          "95%及以上"
+        ]
+      }
+    }
+  },
+  "sources": [
+    "output/playwright/real-attributes/dev-2026-09-08/report.json",
+    "output/playwright/real-textile-attributes/dev-2026-09-09/report.json",
+    "output/playwright/real-remaining-attributes/dev-2026-09-09/report.json",
+    ".runtime/repair-sleeve-options.txt",
+    ".runtime/grams-options.txt",
+    ".runtime/yarn-options.txt",
+    "output/playwright/real-style/dev-2026-09-08/report.json",
+    "output/playwright/real-fabric/dev-2026-09-08/report.json"
+  ]
+}

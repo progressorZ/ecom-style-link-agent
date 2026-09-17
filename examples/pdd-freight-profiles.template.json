@@ -1,0 +1,19 @@
+[
+  {
+    "version": "pdd-freight-profile-v1",
+    "platform": "pdd",
+    "shopKey": "demo-shop-not-connected",
+    "profileKey": "demo-logistics-unverified",
+    "revision": 1,
+    "confirmation": {
+      "confirmed": false,
+      "confirmedAt": "",
+      "reference": "待商家核实店铺、模板及完整配送规则后填写"
+    },
+    "freight": {
+      "mode": "other",
+      "templateName": "待填写精确模板名称",
+      "expectedGroups": []
+    }
+  }
+]

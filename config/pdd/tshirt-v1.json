@@ -1,0 +1,219 @@
+{
+  "version": "pdd-tshirt-f1s-2026-09-07",
+  "status": "captured_unverified_write",
+  "scope": {
+    "host": "mms.pinduoduo.com",
+    "path": "/goods/goods_add/index",
+    "categoryBreadcrumb": "女装/女士精品 > T恤 > T恤"
+  },
+  "fieldContainer": {
+    "strategy": "exact_label_within_beast_core_form_item",
+    "observedAncestorDepth": 3,
+    "failOnZeroOrMultiple": true
+  },
+  "fields": [
+    {
+      "key": "listing.title",
+      "label": "商品标题",
+      "control": "text",
+      "placeholderContains": "最多输入30个汉字"
+    },
+    {
+      "key": "product.brand",
+      "label": "品牌",
+      "control": "combobox",
+      "placeholder": "请输入品牌名称搜索"
+    },
+    {
+      "key": "attributes.fabricName",
+      "label": "重要面料俗称",
+      "control": "combobox",
+      "placeholder": "请选择"
+    },
+    {
+      "key": "attributes.material",
+      "label": "材质",
+      "control": "combobox",
+      "appearsAfter": [
+        "attributes.fabricName"
+      ],
+      "whenDisabled": "readback_only"
+    },
+    {
+      "key": "attributes.composition",
+      "label": "成分含量",
+      "control": "combobox",
+      "appearsAfter": [
+        "attributes.fabricName",
+        "attributes.material"
+      ]
+    },
+    {
+      "key": "attributes.fashionElements",
+      "label": "重要流行元素",
+      "control": "multi_combobox"
+    },
+    {
+      "key": "attributes.primaryStyle",
+      "label": "重要主风格",
+      "control": "combobox"
+    },
+    {
+      "key": "attributes.sleeveLength",
+      "label": "重要袖长",
+      "control": "combobox"
+    },
+    {
+      "key": "attributes.fit",
+      "label": "重要服装版型",
+      "control": "combobox"
+    },
+    {
+      "key": "attributes.garmentLength",
+      "label": "重要衣长",
+      "control": "combobox"
+    },
+    {
+      "key": "attributes.collar",
+      "label": "领型",
+      "control": "combobox"
+    },
+    {
+      "key": "attributes.sleeveType",
+      "label": "袖型",
+      "control": "combobox"
+    },
+    {
+      "key": "attributes.secondaryStyle",
+      "label": "风格",
+      "control": "combobox",
+      "appearsAfter": [
+        "attributes.primaryStyle"
+      ]
+    },
+    {
+      "key": "attributes.ageRange",
+      "label": "重要适用年龄",
+      "control": "combobox"
+    },
+    {
+      "key": "attributes.listingSeason",
+      "label": "重要上市时节",
+      "control": "combobox"
+    },
+    {
+      "key": "attributes.fleece",
+      "label": "重要是否加绒",
+      "control": "combobox"
+    },
+    {
+      "key": "attributes.gramsPerSquareMeter",
+      "label": "重要平方克重",
+      "control": "combobox"
+    },
+    {
+      "key": "product.productCode",
+      "label": "商品货号",
+      "control": "text",
+      "placeholder": "请输入"
+    },
+    {
+      "key": "listing.qualification",
+      "label": "商品资质",
+      "control": "combobox"
+    },
+    {
+      "key": "listing.referencePrice",
+      "label": "商品参考价",
+      "control": "text",
+      "placeholder": "应大于商品最大单买价"
+    },
+    {
+      "key": "listing.multiItemDiscount",
+      "label": "满件折扣",
+      "control": "text",
+      "placeholder": "5.0~9.9"
+    },
+    {
+      "key": "attributes.yarnCount",
+      "label": "支数",
+      "control": "combobox",
+      "evidenceDate": "2026-09-09"
+    }
+  ],
+  "variantMatrix": {
+    "identity": [
+      "colorLabel",
+      "sizeLabel"
+    ],
+    "rowFields": [
+      "stock",
+      "groupPrice",
+      "singlePrice",
+      "previewImage",
+      "merchantSku",
+      "enabled"
+    ],
+    "locate": "scope_to_price_inventory_region_then_match_color_and_size_text",
+    "bulkControlsObserved": [
+      "colorFilter",
+      "sizeFilter",
+      "stock",
+      "groupPrice",
+      "singlePrice",
+      "merchantSku",
+      "enabled",
+      "batchSet",
+      "excelBatchEdit"
+    ],
+    "forbidInputIndexLocators": true
+  },
+  "sizeLinkage": {
+    "order": [
+      "sizeTemplate",
+      "sizeSystem",
+      "selectedSizes",
+      "sizeChartColumns",
+      "sizeChartRows",
+      "variantMatrix"
+    ],
+    "observedSystem": "中国码",
+    "observedSelectedSizes": [
+      "XXS",
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL",
+      "3XL"
+    ],
+    "observedColumns": [
+      "肩宽(cm)",
+      "胸围(cm)"
+    ],
+    "optionalColumnsObserved": [
+      "臀围(cm)",
+      "身高(cm)",
+      "体重(kg)",
+      "腰围(cm)"
+    ]
+  },
+  "safety": {
+    "allowedTerminalAction": "保存草稿",
+    "forbiddenActions": [
+      "提交并上架"
+    ],
+    "requireReadback": true,
+    "requireReopenVerification": true
+  },
+  "customControls": {
+    "select": {
+      "wrapperTestId": "beast-core-select",
+      "headerTestId": "beast-core-select-header",
+      "inputTestId": "beast-core-select-htmlInput",
+      "multipleClassPrefix": "ST_selectValueMultiple_",
+      "evidenceDate": "2026-09-07"
+    }
+  }
+}

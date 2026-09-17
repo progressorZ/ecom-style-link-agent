@@ -1,0 +1,7 @@
+{
+  "scope": "pdd-tshirt-basic-v1",
+  "fields": [
+    { "key": "listing.title", "value": "自动化流程测试请勿上架" },
+    { "key": "product.productCode", "value": "AUTO-TEST-20260907-01" }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "0.1",
+  "product": {
+    "id": "product-tshirt-test",
+    "productCode": "AUTO-PACKAGE-TEST",
+    "name": "虚构T恤测试勿上架",
+    "categoryKey": "womenswear.tshirt",
+    "brand": null,
+    "revision": 1,
+    "attributes": {
+      "collar": "圆领",
+      "sleeveLength": "短袖"
+    }
+  },
+  "variants": [
+    {
+      "id": "v-S",
+      "merchantSku": "AUTO-PACKAGE-S",
+      "colorKey": "white",
+      "colorLabel": "白色",
+      "sizeKey": "s",
+      "sizeLabel": "S"
+    },
+    {
+      "id": "v-M",
+      "merchantSku": "AUTO-PACKAGE-M",
+      "colorKey": "white",
+      "colorLabel": "白色",
+      "sizeKey": "m",
+      "sizeLabel": "M"
+    }
+  ],
+  "assets": [
+    {
+      "id": "main",
+      "sourcePath": "examples/test-images/front.png",
+      "role": "main",
+      "colorKey": "white",
+      "order": 0,
+      "reviewStatus": "approved"
+    },
+    {
+      "id": "detail",
+      "sourcePath": "examples/test-images/back.png",
+      "role": "detail",
+      "colorKey": "white",
+      "order": 0,
+      "reviewStatus": "approved"
+    },
+    {
+      "id": "sku",
+      "sourcePath": "examples/test-images/front.png",
+      "role": "sku",
+      "colorKey": "white",
+      "order": 0,
+      "reviewStatus": "approved"
+    }
+  ],
+  "sizeCharts": [
+    {
+      "id": "garment",
+      "kind": "garment",
+      "columns": [
+        {
+          "key": "shoulderWidth",
+          "label": "肩宽",
+          "unit": "cm"
+        },
+        {
+          "key": "chestCircumference",
+          "label": "胸围",
+          "unit": "cm"
+        }
+      ],
+      "rows": [
+        {
+          "sizeKey": "s",
+          "values": {
+            "shoulderWidth": 37,
+            "chestCircumference": 86
+          }
+        },
+        {
+          "sizeKey": "m",
+          "values": {
+            "shoulderWidth": 38,
+            "chestCircumference": 90
+          }
+        }
+      ]
+    }
+  ],
+  "listing": {
+    "platform": "pdd",
+    "shopKey": "demo-shop-not-connected",
+    "categoryBindingKey": "tshirt-unverified",
+    "title": "自动化T恤测试请勿上架",
+    "revision": 1,
+    "sizeConfiguration": {
+      "templateKey": "womens-tops-cn-platform-recommended-unverified",
+      "system": "cn",
+      "selectedSizeKeys": [
+        "s",
+        "m"
+      ],
+      "syncChartToDetail": false
+    },
+    "offers": [
+      {
+        "variantId": "v-S",
+        "prices": [
+          {
+            "role": "sale",
+            "amountMinor": 100000,
+            "currency": "CNY"
+          },
+          {
+            "role": "platform:pdd.single",
+            "amountMinor": 100100,
+            "currency": "CNY"
+          }
+        ],
+        "stock": 1,
+        "enabled": true,
+        "skuAssetId": "sku"
+      },
+      {
+        "variantId": "v-M",
+        "prices": [
+          {
+            "role": "sale",
+            "amountMinor": 100000,
+            "currency": "CNY"
+          },
+          {
+            "role": "platform:pdd.single",
+            "amountMinor": 100100,
+            "currency": "CNY"
+          }
+        ],
+        "stock": 1,
+        "enabled": true,
+        "skuAssetId": "sku"
+      }
+    ],
+    "pricing": {
+      "referenceAmountMinor": 100200,
+      "multiItemDiscount": {
+        "count": 2,
+        "discount": 9.5
+      }
+    },
+    "inventoryConfirmedAt": "2026-09-06T08:00:00Z",
+    "logistics": {
+      "profileKey": "demo-logistics-unverified",
+      "inventoryDeduction": "payment_success",
+      "shippingPromise": "48h_handover"
+    }
+  },
+  "evidence": [
+    {
+      "fieldPath": "/",
+      "source": "manual",
+      "confirmed": false,
+      "reference": "虚构编译测试资料，非真实商家确认"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "scope": "pdd-tshirt-attributes-v1",
+  "productCode": "AUTO-MATRIX-20260908-02",
+  "fields": [
+    {
+      "key": "attributes.fleece",
+      "value": "不加绒"
+    },
+    {
+      "key": "attributes.gramsPerSquareMeter",
+      "value": "160g/m²（含）—180g/m²（不含）"
+    },
+    {
+      "key": "attributes.yarnCount",
+      "value": "32S"
+    }
+  ]
+}

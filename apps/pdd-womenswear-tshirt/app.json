@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0",
+  "id": "pdd-womenswear-tshirt",
+  "displayName": "拼多多女装 T 恤上新助手",
+  "version": "0.1.2",
+  "status": "beta",
+  "adapter": {
+    "id": "pdd.browser.cn.womenswear-tshirt",
+    "categoryKeys": ["womenswear.tshirt"]
+  },
+  "dataNamespace": "pdd-womenswear-tshirt",
+  "distributions": [
+    {"target": "windows-x64", "format": "portable-zip", "status": "beta", "buildCommand": "npm run build:app:pdd-tshirt:windows"},
+    {"target": "macos-universal", "format": "portable-zip", "status": "experimental", "buildCommand": "npm run build:app:pdd-tshirt:macos"}
+  ],
+  "safety": {
+    "humanReviewRequired": true,
+    "automaticPublish": false
+  }
+}

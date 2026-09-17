@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "0.1",
+  "product": {
+    "id": "product-demo-A001",
+    "productCode": "A001",
+    "name": "方领长袖连衣裙测试款",
+    "categoryKey": "womenswear.dress",
+    "brand": null,
+    "revision": 1,
+    "attributes": {
+      "collar": "方领",
+      "sleeveLength": "长袖",
+      "pattern": "纯色",
+      "fit": "收腰",
+      "composition": "聚酯纤维95%，氨纶5%"
+    }
+  },
+  "variants": [
+    {"id": "v-black-s", "merchantSku": "A001-BLK-S", "colorKey": "black", "colorLabel": "黑色", "sizeKey": "s", "sizeLabel": "S"},
+    {"id": "v-black-m", "merchantSku": "A001-BLK-M", "colorKey": "black", "colorLabel": "黑色", "sizeKey": "m", "sizeLabel": "M"},
+    {"id": "v-ivory-m", "merchantSku": "A001-IVR-M", "colorKey": "ivory", "colorLabel": "米白", "sizeKey": "m", "sizeLabel": "M"}
+  ],
+  "assets": [
+    {"id": "asset-main-black", "sourcePath": "media/A001/black-front.jpg", "role": "main", "colorKey": "black", "order": 0, "reviewStatus": "approved"},
+    {"id": "asset-main-ivory", "sourcePath": "media/A001/ivory-front.jpg", "role": "main", "colorKey": "ivory", "order": 1, "reviewStatus": "approved"},
+    {"id": "asset-detail", "sourcePath": "media/A001/detail.jpg", "role": "detail", "order": 0, "reviewStatus": "approved"},
+    {"id": "asset-sku-black", "sourcePath": "media/A001/black-front.jpg", "role": "sku", "colorKey": "black", "order": 0, "reviewStatus": "approved"},
+    {"id": "asset-sku-ivory", "sourcePath": "media/A001/ivory-front.jpg", "role": "sku", "colorKey": "ivory", "order": 1, "reviewStatus": "approved"}
+  ],
+  "sizeCharts": [
+    {
+      "id": "chart-garment",
+      "kind": "garment",
+      "columns": [
+        {"key": "garmentLength", "label": "成衣衣长", "unit": "cm"},
+        {"key": "chestCircumference", "label": "成衣胸围", "unit": "cm"},
+        {"key": "shoulderWidth", "label": "肩宽", "unit": "cm"}
+      ],
+      "rows": [
+        {"sizeKey": "s", "values": {"garmentLength": 108, "chestCircumference": 86, "shoulderWidth": 37}},
+        {"sizeKey": "m", "values": {"garmentLength": 110, "chestCircumference": 90, "shoulderWidth": 38}}
+      ]
+    }
+  ],
+  "listing": {
+    "platform": "pdd",
+    "shopKey": "demo-shop-not-connected",
+    "categoryBindingKey": "demo-dress-unverified",
+    "title": "方领长袖纯色收腰连衣裙女",
+    "revision": 1,
+    "sizeConfiguration": {"templateKey": "womens-tops-cn-platform-recommended-unverified", "system": "cn", "selectedSizeKeys": ["s", "m"], "syncChartToDetail": true},
+    "offers": [
+      {"variantId": "v-black-s", "prices": [{"role": "sale", "amountMinor": 12900, "currency": "CNY"}, {"role": "platform:pdd.single", "amountMinor": 13900, "currency": "CNY"}], "stock": 20, "enabled": true, "skuAssetId": "asset-sku-black"},
+      {"variantId": "v-black-m", "prices": [{"role": "sale", "amountMinor": 12900, "currency": "CNY"}, {"role": "platform:pdd.single", "amountMinor": 13900, "currency": "CNY"}], "stock": 30, "enabled": true, "skuAssetId": "asset-sku-black"},
+      {"variantId": "v-ivory-m", "prices": [{"role": "sale", "amountMinor": 13900, "currency": "CNY"}, {"role": "platform:pdd.single", "amountMinor": 14900, "currency": "CNY"}], "stock": 15, "enabled": true, "skuAssetId": "asset-sku-ivory"}
+    ],
+    "pricing": {"referenceAmountMinor": 16900, "multiItemDiscount": {"count": 2, "discount": 9.5}},
+    "inventoryConfirmedAt": "2026-09-06T08:00:00Z",
+    "logistics": {"profileKey": "demo-logistics-unverified", "inventoryDeduction": "payment_success", "shippingPromise": "48h_handover"}
+  },
+  "evidence": [
+    {"fieldPath": "/product/productCode", "source": "manual", "confirmed": true, "reference": "虚构测试货号，非真实商家确认"},
+    {"fieldPath": "/product/attributes", "source": "manual", "confirmed": true, "reference": "虚构测试属性，非实物识别结论"},
+    {"fieldPath": "/variants", "source": "manual", "confirmed": true, "reference": "虚构测试组合，米白S不存在"},
+    {"fieldPath": "/listing/offers", "source": "manual", "confirmed": true, "reference": "虚构价格库存，总库存65件"},
+    {"fieldPath": "/sizeCharts/0", "source": "manual", "confirmed": true, "reference": "虚构成衣测量值，不可用于真实销售"},
+    {"fieldPath": "/listing/logistics", "source": "template", "confirmed": false, "reference": "占位配置，必须连接真实店铺验证"}
+  ]
+}

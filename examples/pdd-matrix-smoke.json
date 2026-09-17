@@ -1,0 +1,25 @@
+{
+  "scope": "pdd-tshirt-matrix-v1",
+  "productCode": "AUTO-MATRIX-20260908-01",
+  "variants": [
+    {
+      "color": "白色",
+      "size": "S",
+      "merchantSku": "AUTO-MATRIX-20260908-01-WHT-S",
+      "stock": 1,
+      "groupPriceMinor": 100000,
+      "singlePriceMinor": 100100,
+      "enabled": true
+    },
+    {
+      "color": "白色",
+      "size": "M",
+      "merchantSku": "AUTO-MATRIX-20260908-01-WHT-M",
+      "stock": 0,
+      "groupPriceMinor": 100000,
+      "singlePriceMinor": 100100,
+      "enabled": false
+    }
+  ],
+  "sizeSystem": "中国码"
+}

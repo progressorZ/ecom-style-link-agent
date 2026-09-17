@@ -1,0 +1,8 @@
+{
+  "scope": "pdd-tshirt-sku-v1",
+  "productCode": "AUTO-TEST-20260907-01",
+  "variants": [
+    {"color":"白色","size":"S","merchantSku":"AUTO-TEST-20260907-01-WHT-S","stock":1,"groupPriceMinor":100000,"singlePriceMinor":100100,"enabled":true},
+    {"color":"白色","size":"M","merchantSku":"AUTO-TEST-20260907-01-WHT-M","stock":0,"groupPriceMinor":100000,"singlePriceMinor":100100,"enabled":false}
+  ]
+}

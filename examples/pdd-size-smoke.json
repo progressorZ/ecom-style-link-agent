@@ -1,0 +1,22 @@
+{
+  "scope": "pdd-tshirt-size-v1",
+  "productCode": "AUTO-MATRIX-20260908-02",
+  "kind": "garment",
+  "unit": "cm",
+  "rows": [
+    {
+      "size": "S",
+      "measurements": {
+        "shoulderWidth": 37.5,
+        "chestCircumference": 86
+      }
+    },
+    {
+      "size": "M",
+      "measurements": {
+        "shoulderWidth": 38.5,
+        "chestCircumference": 90
+      }
+    }
+  ]
+}

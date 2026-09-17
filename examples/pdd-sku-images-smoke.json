@@ -1,0 +1,22 @@
+{
+  "scope": "pdd-tshirt-sku-images-v1",
+  "productCode": "AUTO-MATRIX-20260908-01",
+  "images": [
+    {
+      "id": "white",
+      "path": "examples/test-images/front.png"
+    }
+  ],
+  "bindings": [
+    {
+      "color": "白色",
+      "size": "S",
+      "imageId": "white"
+    },
+    {
+      "color": "白色",
+      "size": "M",
+      "imageId": "white"
+    }
+  ]
+}

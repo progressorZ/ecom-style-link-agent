@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "0.1",
+  "product": {
+    "id": "product-tshirt-acceptance-02",
+    "productCode": "AUTO-ACCEPT-20260910-02",
+    "name": "虚构T恤测试勿上架",
+    "categoryKey": "womenswear.tshirt",
+    "brand": "无品牌/无注册商标",
+    "revision": 3,
+    "attributes": {
+      "collar": "圆领",
+      "sleeveLength": "短袖",
+      "fabricName": "棉",
+      "material": "棉",
+      "composition": "95%及以上",
+      "primaryStyle": "简约通勤",
+      "secondaryStyle": "简约",
+      "fashionElements": [
+        "纯色",
+        "口袋"
+      ],
+      "fleece": "不加绒",
+      "gramsPerSquareMeter": "160g/m²（含）—180g/m²（不含）",
+      "yarnCount": "32S",
+      "fit": "常规",
+      "garmentLength": "常规款",
+      "sleeveType": "常规",
+      "ageRange": "中青年（26-40周岁）",
+      "listingSeason": "2026年秋季"
+    }
+  },
+  "variants": [
+    {
+      "id": "v-S",
+      "merchantSku": "AUTO-ACCEPT-20260910-02-WHT-S",
+      "colorKey": "white",
+      "colorLabel": "白色",
+      "sizeKey": "s",
+      "sizeLabel": "S"
+    },
+    {
+      "id": "v-M",
+      "merchantSku": "AUTO-ACCEPT-20260910-02-WHT-M",
+      "colorKey": "white",
+      "colorLabel": "白色",
+      "sizeKey": "m",
+      "sizeLabel": "M"
+    }
+  ],
+  "assets": [
+    {
+      "id": "main",
+      "sourcePath": "examples/test-images/front.png",
+      "role": "main",
+      "colorKey": "white",
+      "order": 0,
+      "reviewStatus": "approved"
+    },
+    {
+      "id": "detail",
+      "sourcePath": "examples/test-images/back.png",
+      "role": "detail",
+      "colorKey": "white",
+      "order": 0,
+      "reviewStatus": "approved"
+    },
+    {
+      "id": "sku",
+      "sourcePath": "examples/test-images/front.png",
+      "role": "sku",
+      "colorKey": "white",
+      "order": 0,
+      "reviewStatus": "approved"
+    }
+  ],
+  "sizeCharts": [
+    {
+      "id": "garment",
+      "kind": "garment",
+      "columns": [
+        {
+          "key": "shoulderWidth",
+          "label": "肩宽",
+          "unit": "cm"
+        },
+        {
+          "key": "chestCircumference",
+          "label": "胸围",
+          "unit": "cm"
+        }
+      ],
+      "rows": [
+        {
+          "sizeKey": "s",
+          "values": {
+            "shoulderWidth": 37,
+            "chestCircumference": 86
+          }
+        },
+        {
+          "sizeKey": "m",
+          "values": {
+            "shoulderWidth": 38,
+            "chestCircumference": 90
+          }
+        }
+      ]
+    }
+  ],
+  "listing": {
+    "platform": "pdd",
+    "shopKey": "demo-shop-not-connected",
+    "categoryBindingKey": "tshirt-unverified",
+    "title": "自动化验收测试二请勿上架",
+    "revision": 3,
+    "sizeConfiguration": {
+      "templateKey": "womens-tops-cn-platform-recommended-unverified",
+      "system": "cn",
+      "selectedSizeKeys": [
+        "s",
+        "m"
+      ],
+      "syncChartToDetail": false
+    },
+    "offers": [
+      {
+        "variantId": "v-S",
+        "prices": [
+          {
+            "role": "sale",
+            "amountMinor": 100000,
+            "currency": "CNY"
+          },
+          {
+            "role": "platform:pdd.single",
+            "amountMinor": 100100,
+            "currency": "CNY"
+          }
+        ],
+        "stock": 1,
+        "enabled": true,
+        "skuAssetId": "sku"
+      },
+      {
+        "variantId": "v-M",
+        "prices": [
+          {
+            "role": "sale",
+            "amountMinor": 100000,
+            "currency": "CNY"
+          },
+          {
+            "role": "platform:pdd.single",
+            "amountMinor": 100100,
+            "currency": "CNY"
+          }
+        ],
+        "stock": 0,
+        "enabled": false,
+        "skuAssetId": "sku"
+      }
+    ],
+    "pricing": {
+      "referenceAmountMinor": 100300,
+      "multiItemDiscount": {
+        "count": 2,
+        "discount": 9.4
+      }
+    },
+    "inventoryConfirmedAt": "2026-09-06T08:00:00Z",
+    "logistics": {
+      "profileKey": "demo-logistics-unverified",
+      "inventoryDeduction": "payment_success",
+      "shippingPromise": "48h_handover"
+    },
+    "services": {
+      "goodsType": "普通商品",
+      "secondHand": "非二手",
+      "customized": "非定制",
+      "presale": "非预售",
+      "groupSize": 2,
+      "sevenDayReturns": true,
+      "nearbySameDay": false,
+      "authenticityPromise": false
+    }
+  },
+  "evidence": [
+    {
+      "fieldPath": "/",
+      "source": "manual",
+      "confirmed": false,
+      "reference": "虚构编译测试资料，非真实商家确认"
+    },
+    {
+      "fieldPath": "/product/attributes",
+      "source": "manual",
+      "confirmed": false,
+      "reference": "第二版虚构测试资料，用于普通属性与虚拟下拉联调，非实物商品事实"
+    }
+  ]
+}

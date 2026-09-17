@@ -1,0 +1,29 @@
+{
+  "scope": "pdd-tshirt-pricing-v1",
+  "productCode": "AUTO-MATRIX-20260908-02",
+  "variants": [
+    {
+      "color": "白色",
+      "size": "S",
+      "merchantSku": "AUTO-MATRIX-20260908-02-WHT-S",
+      "stock": 1,
+      "groupPriceMinor": 100000,
+      "singlePriceMinor": 100100,
+      "enabled": true
+    },
+    {
+      "color": "白色",
+      "size": "M",
+      "merchantSku": "AUTO-MATRIX-20260908-02-WHT-M",
+      "stock": 0,
+      "groupPriceMinor": 100000,
+      "singlePriceMinor": 100100,
+      "enabled": false
+    }
+  ],
+  "referenceAmountMinor": 100300,
+  "multiItemDiscount": {
+    "count": 2,
+    "discount": 9.4
+  }
+}

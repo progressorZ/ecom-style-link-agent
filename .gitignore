@@ -1,0 +1,18 @@
+node_modules/
+dist/
+release/
+.runtime/
+.playwright-cli/
+output/
+data/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+*.zip
+# 原始商家后台截图包含店铺身份、商品编号和实物图片，仅保留在本机。
+docs/references/screenshots/07-real-tshirt-basic-attributes-media.png
+docs/references/screenshots/08-real-tshirt-spec-price-service.png
+docs/references/screenshots/09-real-tshirt-size-linkage.png
+docs/references/screenshots/10-real-tshirt-service-actions.png

@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "0.1",
+  "product": {
+    "id": "product-A20260912-01",
+    "productCode": "A20260912-01",
+    "name": "圆领短袖女装T恤",
+    "categoryKey": "womenswear.tshirt",
+    "brand": "无品牌/无注册商标",
+    "revision": 1,
+    "attributes": {
+      "collar": "圆领",
+      "sleeveLength": "短袖",
+      "fabricName": "棉",
+      "material": "棉",
+      "composition": "95%及以上",
+      "primaryStyle": "简约通勤",
+      "secondaryStyle": "简约",
+      "fashionElements": ["纯色", "口袋"],
+      "fleece": "不加绒",
+      "gramsPerSquareMeter": "160g/m²（含）—180g/m²（不含）",
+      "yarnCount": "32S",
+      "fit": "常规",
+      "garmentLength": "常规款",
+      "sleeveType": "常规",
+      "ageRange": "中青年（26-40周岁）",
+      "listingSeason": "2026年秋季"
+    }
+  },
+  "variants": [
+    {
+      "id": "white-s", "merchantSku": "A20260912-01-WHT-S",
+      "colorKey": "white", "colorLabel": "白色", "sizeKey": "s", "sizeLabel": "S"
+    },
+    {
+      "id": "white-m", "merchantSku": "A20260912-01-WHT-M",
+      "colorKey": "white", "colorLabel": "白色", "sizeKey": "m", "sizeLabel": "M"
+    }
+  ],
+  "assets": [
+    {"id": "main-1", "sourcePath": "商品图片/A20260912-01/主图.png", "role": "main", "order": 0, "reviewStatus": "approved"},
+    {"id": "detail-1", "sourcePath": "商品图片/A20260912-01/详情图.png", "role": "detail", "order": 0, "reviewStatus": "approved"},
+    {"id": "sku-white", "sourcePath": "商品图片/A20260912-01/白色SKU图.png", "role": "sku", "colorKey": "white", "order": 0, "reviewStatus": "approved"}
+  ],
+  "sizeCharts": [
+    {
+      "id": "garment", "kind": "garment",
+      "columns": [
+        {"key": "shoulderWidth", "label": "肩宽", "unit": "cm"},
+        {"key": "chestCircumference", "label": "胸围", "unit": "cm"}
+      ],
+      "rows": [
+        {"sizeKey": "s", "values": {"shoulderWidth": 37, "chestCircumference": 86}},
+        {"sizeKey": "m", "values": {"shoulderWidth": 38, "chestCircumference": 90}}
+      ]
+    }
+  ],
+  "listing": {
+    "platform": "pdd",
+    "shopKey": "your-shop-key",
+    "categoryBindingKey": "tshirt-unverified",
+    "title": "示例勿发布圆领短袖简约纯色女装T恤",
+    "revision": 1,
+    "sizeConfiguration": {
+      "templateKey": "womens-tops-cn-platform-recommended-unverified",
+      "system": "cn", "selectedSizeKeys": ["s", "m"], "syncChartToDetail": false
+    },
+    "offers": [
+      {
+        "variantId": "white-s",
+        "prices": [
+          {"role": "sale", "amountMinor": 12900, "currency": "CNY"},
+          {"role": "platform:pdd.single", "amountMinor": 14900, "currency": "CNY"}
+        ],
+        "stock": 20, "enabled": true, "skuAssetId": "sku-white"
+      },
+      {
+        "variantId": "white-m",
+        "prices": [
+          {"role": "sale", "amountMinor": 12900, "currency": "CNY"},
+          {"role": "platform:pdd.single", "amountMinor": 14900, "currency": "CNY"}
+        ],
+        "stock": 30, "enabled": true, "skuAssetId": "sku-white"
+      }
+    ],
+    "pricing": {
+      "referenceAmountMinor": 19900,
+      "multiItemDiscount": {"count": 2, "discount": 9.4}
+    },
+    "inventoryConfirmedAt": "2026-09-12T09:00:00+08:00",
+    "logistics": {
+      "profileKey": "your-logistics-profile-key",
+      "inventoryDeduction": "payment_success",
+      "shippingPromise": "48h_handover"
+    },
+    "services": {
+      "goodsType": "普通商品", "secondHand": "非二手", "customized": "非定制",
+      "presale": "非预售", "groupSize": 2, "sevenDayReturns": true,
+      "nearbySameDay": false, "authenticityPromise": false
+    }
+  },
+  "evidence": [
+    {
+      "fieldPath": "/", "source": "manual", "confirmed": false,
+      "reference": "仅用于展示输入格式，商品数据、图片路径及时间均为示例，尚未核实"
+    }
+  ]
+}

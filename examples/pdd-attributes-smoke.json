@@ -1,0 +1,14 @@
+{
+  "scope": "pdd-tshirt-attributes-v1",
+  "productCode": "AUTO-MATRIX-20260908-02",
+  "fields": [
+    {
+      "key": "attributes.sleeveLength",
+      "value": "短袖"
+    },
+    {
+      "key": "attributes.collar",
+      "value": "圆领"
+    }
+  ]
+}

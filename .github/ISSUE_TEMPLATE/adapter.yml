@@ -1,0 +1,48 @@
+name: 新平台或类目 Adapter
+description: 提议或实现一个新的电商平台、站点或类目自动化能力
+title: "[Adapter] "
+labels: ["adapter", "proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: "不要提交账号、Cookie、token、二维码、订单或未脱敏的商家页面。"
+  - type: input
+    id: platform
+    attributes:
+      label: 平台与站点
+      placeholder: 例如 Amazon US
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: 叶子类目
+      placeholder: 填写平台显示的完整类目路径
+    validations:
+      required: true
+  - type: dropdown
+    id: access
+    attributes:
+      label: 接入方式
+      options: ["浏览器", "官方 API", "混合", "尚未确定"]
+    validations:
+      required: true
+  - type: textarea
+    id: manual_work
+    attributes:
+      label: 当前重复工作
+      description: 哪些操作最耗时、出现频率多高？
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: 建议支持范围
+      description: 列出希望自动完成和仍由人工完成的步骤。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 可提供的脱敏证据
+      description: 官方文档、脱敏 DOM fixture 或测试账号验证条件；不要直接粘贴敏感内容。

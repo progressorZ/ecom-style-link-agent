@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ecom-listing-agent:schema:adapter-manifest:1.0",
+  "title": "Ecom Listing Agent Adapter Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "displayName", "version", "status", "platform", "compatibility", "categories", "capabilities", "entrypoints", "safety", "maintainers"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"},
+    "displayName": {"type": "string", "minLength": 1, "maxLength": 100},
+    "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "status": {"$ref": "#/$defs/status"},
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "displayName", "site", "accessMode"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "displayName": {"type": "string", "minLength": 1},
+        "site": {"type": "string", "minLength": 1},
+        "accessMode": {"enum": ["browser", "official-api", "hybrid"]}
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core", "node"],
+      "properties": {
+        "core": {"type": "string", "minLength": 1},
+        "node": {"type": "string", "minLength": 1},
+        "operatingSystems": {"type": "array", "uniqueItems": true, "items": {"enum": ["windows", "macos", "linux"]}}
+      }
+    },
+    "categories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "displayPath", "status", "lastVerifiedAt", "evidenceDocs"],
+        "properties": {
+          "key": {"type": "string", "minLength": 1},
+          "displayPath": {"type": "string", "minLength": 1},
+          "status": {"$ref": "#/$defs/status"},
+          "lastVerifiedAt": {"type": ["string", "null"], "format": "date"},
+          "evidenceDocs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status"],
+        "properties": {
+          "id": {"enum": ["basic", "attributes", "variants", "pricing-inventory", "size-chart", "main-images", "variant-images", "detail-images", "video", "logistics", "services", "save-draft", "reopen-draft", "readback", "publish", "batch"]},
+          "status": {"$ref": "#/$defs/capabilityStatus"},
+          "notes": {"type": "string", "maxLength": 300}
+        }
+      }
+    },
+    "entrypoints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layout", "compiler", "workflow"],
+      "properties": {
+        "layout": {"enum": ["adapter-package", "legacy-root"]},
+        "compiler": {"type": "string", "pattern": "^[^/].*\\.(?:mjs|js|ts)$"},
+        "workflow": {"type": "string", "pattern": "^[^/].*\\.(?:mjs|js|ts)$"}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["humanReviewRequired", "automaticPublish"],
+      "properties": {
+        "humanReviewRequired": {"const": true},
+        "automaticPublish": {"type": "boolean"}
+      }
+    },
+    "maintainers": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^@[A-Za-z0-9-]+$"}}
+  },
+  "$defs": {
+    "status": {"enum": ["proposal", "experimental", "beta", "stable", "deprecated"]},
+    "capabilityStatus": {"enum": ["unsupported", "proposal", "experimental", "beta", "stable", "deprecated"]}
+  }
+}
