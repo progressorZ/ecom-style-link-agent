@@ -81,7 +81,7 @@
 
 ## 6. Releases
 
-首次版本使用 GitHub Pre-release，例如 v0.1.0-beta。每个 App 按系统独立附加文件：
+首次版本使用 GitHub Pre-release；当前首发标签为 `v0.1.2-beta`。每个 App 按系统独立附加文件：
 
 - &lt;app-id&gt;-v&lt;version&gt;-windows-x64.zip
 - &lt;app-id&gt;-v&lt;version&gt;-windows-x64.zip.sha256
