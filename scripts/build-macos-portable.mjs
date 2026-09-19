@@ -49,6 +49,8 @@ for(const [arch,archive] of Object.entries(archives)){
  await rm(extractRoot,{recursive:true,force:true});await rm(archivePath,{force:true})
 }
 await rm(checksPath,{force:true})
+console.log('验证全新数据目录启动及网页/API连接…')
+await run(process.execPath,[resolve(projectRoot,'scripts/portable-smoke-test.mjs'),stage],{cwd:projectRoot})
 const zipPath=resolve(releaseRoot,`${bundleName}.zip`),temporary=resolve(releaseRoot,`${bundleName}.tmp.zip`)
 await rm(zipPath,{force:true});await rm(temporary,{force:true})
 console.log('生成 macOS 通用免安装 ZIP…');await run('zip',['-q','-r',temporary,bundleName],{cwd:releaseRoot});await rename(temporary,zipPath)

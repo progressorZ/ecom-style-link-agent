@@ -69,6 +69,9 @@ try{
  await rm(archivePath,{force:true})
 }
 
+console.log('验证全新数据目录启动及网页/API连接…')
+await run(process.execPath,[resolve(projectRoot,'scripts/portable-smoke-test.mjs'),stage],{cwd:projectRoot})
+
 const zipPath=resolve(releaseRoot,`${bundleName}.zip`),temporary=resolve(releaseRoot,`${bundleName}.tmp.zip`)
 await rm(temporary,{force:true});await rm(zipPath,{force:true})
 console.log('生成 Windows 免安装 ZIP…')

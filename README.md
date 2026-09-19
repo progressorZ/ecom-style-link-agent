@@ -33,8 +33,8 @@
 
 | 电脑 | 下载文件 | 启动文件 |
 |---|---|---|
-| Windows 10/11 64 位 | `pdd-womenswear-tshirt-v0.1.2-windows-x64.zip` | `Start-PDD-Assistant.cmd` |
-| Apple Silicon 或 Intel Mac | `pdd-womenswear-tshirt-v0.1.2-macos-universal.zip` | `Start-PDD-Assistant.command` |
+| Windows 10/11 64 位 | `pdd-womenswear-tshirt-v0.1.3-windows-x64.zip` | `Start-PDD-Assistant.cmd` |
+| Apple Silicon 或 Intel Mac | `pdd-womenswear-tshirt-v0.1.3-macos-universal.zip` | `Start-PDD-Assistant.command` |
 
 1. **完整解压 ZIP** 到普通文件夹，不要在压缩包预览窗口中直接运行。
 2. 双击启动文件。程序会打开本机工作台网页 `http://127.0.0.1:5173/`。

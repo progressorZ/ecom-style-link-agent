@@ -1,6 +1,6 @@
 {
   "name": "ecom-style-link-agent",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "Apache-2.0",
   "private": true,
   "type": "module",
@@ -62,7 +62,8 @@
     "workbench:stop": "node scripts/workbench-service.mjs stop",
     "workbench:status": "node scripts/workbench-service.mjs status",
     "workbench:doctor": "node scripts/workbench-doctor.mjs",
-    "test:mvp": "node --test scripts/mvp-entry.test.mjs scripts/live-server.test.mjs scripts/pdd-review.test.mjs",
+    "test:mvp": "node --test scripts/mvp-entry.test.mjs scripts/live-server.test.mjs scripts/static-server.test.mjs scripts/pdd-review.test.mjs",
+    "test:portable-clean": "node scripts/portable-smoke-test.mjs release/pdd-womenswear-tshirt-v0.1.3-windows-x64",
     "check:mvp": "node scripts/check-mvp.mjs",
     "build:windows-portable": "npm run build:app:pdd-tshirt:windows",
     "build:app:pdd-tshirt:windows": "npm run build && node scripts/build-windows-portable.mjs",

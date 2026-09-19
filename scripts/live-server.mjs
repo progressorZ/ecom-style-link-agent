@@ -31,7 +31,8 @@ export async function launchMerchantBrowser(){
 export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench'),launch=launchMerchantBrowser,run=runSingleWorkflow,reconcile=reconcileDraft}={}){
  let bundle=null,browser=null,busy=false,activeTask=Promise.resolve(),preferences=null
  const jobs=new Map(),pages=new Map(),pageIds=new WeakMap()
- const allowedOrigins=new Set(['http://127.0.0.1:5173','http://localhost:5173','http://127.0.0.1:4173','http://localhost:4173','http://127.0.0.1:4318'])
+ const staticPort=Number(process.env.ECOM_STATIC_PORT||5173)
+ const allowedOrigins=new Set([`http://127.0.0.1:${staticPort}`,`http://localhost:${staticPort}`,'http://127.0.0.1:5173','http://localhost:5173','http://127.0.0.1:4173','http://localhost:4173','http://127.0.0.1:4318'])
  let writes=Promise.resolve()
  const persist=job=>{const snapshot=JSON.stringify(job,null,2);writes=writes.then(async()=>{await mkdir(root,{recursive:true});const temp=join(root,job.id+'.tmp');await writeFile(temp,snapshot,{mode:0o600});await rename(temp,join(root,job.id+'.json'))});return writes}
  const persistBundle=async()=>{await mkdir(root,{recursive:true});const temp=join(root,'bundle.tmp');await writeFile(temp,JSON.stringify({input:bundle.input,options:bundle.options,reuse:bundle.reuse,entryForm:bundle.entryForm}),{mode:0o600});await rename(temp,join(root,'bundle.json'))}
@@ -225,4 +226,4 @@ export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench
  })
  return {server,ready,close:async()=>{busy=true;if(browser)await browser.close();await activeTask.catch(()=>{});await writes.catch(()=>{});await new Promise(r=>server.close(r))}}
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){const app=createLiveServer();let stopping=false;const stop=()=>{if(stopping)return;stopping=true;app.close().then(()=>process.exit(0),()=>process.exit(1))};process.on('SIGINT',stop);process.on('SIGTERM',stop);app.server.listen(4318,'127.0.0.1',()=>console.log('真实工作台服务：http://127.0.0.1:4318。使用 npm run dev 打开网页。'))}
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){const app=createLiveServer(),port=Number(process.env.ECOM_API_PORT||4318);let stopping=false;const stop=()=>{if(stopping)return;stopping=true;app.close().then(()=>process.exit(0),()=>process.exit(1))};process.on('SIGINT',stop);process.on('SIGTERM',stop);app.server.listen(port,'127.0.0.1',()=>console.log(`真实工作台服务：http://127.0.0.1:${port}。使用工作台网页访问。`))}
