@@ -17,6 +17,10 @@
 - `src/listing-draft.ts`：跨类目的商品草稿、规格矩阵、校验与安全导出。
 - `scripts/category-profile-compiler.mjs`：Adapter 可复用的非 UI 编译入口。
 - `src/CategoryWorkbench.tsx`：由 Profile 驱动的第二类目工作台，用来验证 UI 不再绑定 T 恤字段。
+- `src/local-assets.ts`：类目无关的 JPG/PNG 本机素材上传。
+- `src/tabular-input.ts` 与 `src/variant-bulk.ts`：共用表格解析和按两维规格匹配的价格库存导入。
+
+板鞋工作台现在还提供完整初始示例和多个本机商品模板。套用模板会生成新货号并重建 SKU，价格、库存和素材保持可见，供用户逐项复核。
 
 现有 T 恤执行脚本仍作为已验证实现保留。待板鞋页面合同完成后，再把两者接入同一 `preflight → fill → readback` 运行器，避免为追求形式统一而破坏已工作的 T 恤 MVP。
 

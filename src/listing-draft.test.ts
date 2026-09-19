@@ -1,6 +1,6 @@
 import {describe,expect,it} from 'vitest'
 import {boardShoesProfile} from './category-profile'
-import {buildVariantMatrix,compileListingDraft,createListingDraft,validateListingDraft} from './listing-draft'
+import {buildVariantMatrix,compileListingDraft,createListingDraft,regenerateVariantSkus,validateListingDraft} from './listing-draft'
 
 describe('通用类目商品草稿',()=>{
   it('按照颜色和鞋码生成规格，并保留已有价格库存',()=>{
@@ -24,11 +24,12 @@ describe('通用类目商品草稿',()=>{
     draft.brand='无品牌'
     for(const field of boardShoesProfile.attributeFields)if(field.required)draft.attributes[field.key]='待映射值'
     draft.variants=buildVariantMatrix(draft).map(row=>({...row,groupPrice:'99',singlePrice:'109',stock:'10'}))
-    draft.mainImages=['front.jpg']
-    draft.colorImages={'黑白':'black-white.jpg','米白':'cream.jpg'}
+    draft.mainImages=[{name:'front.jpg',path:'/tmp/front.jpg'}]
+    draft.colorImages={'黑白':{name:'black-white.jpg',path:'/tmp/black-white.jpg'},'米白':{name:'cream.jpg',path:'/tmp/cream.jpg'}}
     expect(validateListingDraft(draft).filter(issue=>issue.kind==='blocking')).toEqual([])
     const output=compileListingDraft(draft)
     expect(output.execution.enabled).toBe(false)
     expect(output.validation.verification.length).toBeGreaterThan(0)
   })
+  it('复制为新商品时保留价格库存并重建规格编码',()=>{const draft=createListingDraft(boardShoesProfile);draft.productCode='OLD-001';draft.colors='黑白';draft.sizes='35';draft.variants=buildVariantMatrix(draft).map(row=>({...row,groupPrice:'99',singlePrice:'109',stock:'10'}));const next=regenerateVariantSkus(draft,'NEW-002');expect(next[0]).toMatchObject({merchantSku:'NEW-002-C01-35',groupPrice:'99',singlePrice:'109',stock:'10'})})
 })
