@@ -1,7 +1,7 @@
 {
   "schemaVersion":"1.0",
   "id":"pdd-board-shoes",
-  "displayName":"拼多多板鞋上新助手",
+  "displayName":"拼多多童鞋板鞋上新助手",
   "version":"0.1.0",
   "status":"experimental",
   "adapter":{"id":"pdd.browser.cn.board-shoes","categoryKeys":["footwear.board-shoes"]},

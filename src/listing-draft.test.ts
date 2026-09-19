@@ -25,7 +25,7 @@ describe('通用类目商品草稿',()=>{
     for(const field of boardShoesProfile.attributeFields)if(field.required)draft.attributes[field.key]='待映射值'
     draft.variants=buildVariantMatrix(draft).map(row=>({...row,groupPrice:'99',singlePrice:'109',stock:'10'}))
     draft.mainImages=[{name:'front.jpg',path:'/tmp/front.jpg'}]
-    draft.colorImages={'黑白':{name:'black-white.jpg',path:'/tmp/black-white.jpg'},'米白':{name:'cream.jpg',path:'/tmp/cream.jpg'}}
+    draft.colorImages=Object.fromEntries(draft.colors.split(',').map((color,index)=>[color,{name:`color-${index + 1}.jpg`,path:`/tmp/color-${index + 1}.jpg`}]))
     expect(validateListingDraft(draft).filter(issue=>issue.kind==='blocking')).toEqual([])
     const output=compileListingDraft(draft)
     expect(output.execution.enabled).toBe(false)

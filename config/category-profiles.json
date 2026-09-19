@@ -27,25 +27,36 @@
       "id": "pdd-board-shoes",
       "platform": "pdd",
       "categoryKey": "footwear.board-shoes",
-      "categoryPath": "板鞋（当前页面类目 ID 201517965903，完整路径待人工核对）",
-      "displayName": "拼多多板鞋",
-      "productNoun": "鞋款",
+      "categoryPath": "童鞋/婴儿鞋/亲子鞋 > 板鞋 > 板鞋",
+      "displayName": "拼多多童鞋板鞋",
+      "productNoun": "童鞋",
       "status": "experimental",
       "variantDimensions": ["颜色", "鞋码"],
       "attributeFields": [
         {"key":"upperMaterial","label":"鞋面材质","required":true,"evidence":"unverified"},
         {"key":"soleMaterial","label":"鞋底材质","required":true,"evidence":"unverified"},
-        {"key":"closureType","label":"闭合方式","required":true,"evidence":"unverified"},
-        {"key":"toeStyle","label":"鞋头款式","required":true,"evidence":"unverified"},
-        {"key":"heelHeight","label":"鞋跟高度","required":false,"evidence":"unverified"},
+        {"key":"applicableGender","label":"适用性别","required":true,"evidence":"unverified"},
+        {"key":"closureType","label":"闭合方式","required":false,"evidence":"unverified"},
         {"key":"upperHeight","label":"鞋帮高度","required":false,"evidence":"unverified"},
+        {"key":"ageRange","label":"适用年龄段","required":false,"evidence":"unverified"},
         {"key":"function","label":"功能","required":false,"evidence":"unverified"},
-        {"key":"applicablePeople","label":"适用人群","required":true,"evidence":"unverified"},
-        {"key":"season","label":"适用季节","required":false,"evidence":"unverified"},
-        {"key":"style","label":"风格","required":false,"evidence":"unverified"}
+        {"key":"season","label":"适用季节","required":true,"evidence":"unverified"},
+        {"key":"listingSeason","label":"上市时节","required":false,"evidence":"unverified"},
+        {"key":"applicablePeople","label":"适用人群","required":false,"evidence":"unverified"},
+        {"key":"style","label":"风格","required":false,"evidence":"unverified"},
+        {"key":"craft","label":"制作工艺","required":false,"evidence":"unverified"},
+        {"key":"fleece","label":"是否加绒","required":false,"evidence":"unverified"},
+        {"key":"soleThickness","label":"鞋底厚度(cm)","required":false,"evidence":"verified"},
+        {"key":"model","label":"型号","required":false,"evidence":"verified"},
+        {"key":"productName","label":"产品名称","required":false,"evidence":"verified"},
+        {"key":"manufacturerName","label":"生产者（制造商）名称","required":false,"evidence":"verified"},
+        {"key":"manufacturerAddress","label":"生产厂家地址","required":false,"evidence":"verified"},
+        {"key":"certificationRequirements","label":"认证标准和技术要求","required":false,"evidence":"verified"},
+        {"key":"warningDescription","label":"产品警示说明","required":false,"evidence":"verified"},
+        {"key":"qualification","label":"商品资质","required":false,"evidence":"unverified"}
       ],
       "sizeMode": "footwear-size-reference",
-      "defaults": {"colors":"黑白,米白","sizes":"35,36,37,38,39,40"}
+      "defaults": {"colors":"深灰色,浅灰色","sizes":"26,27,28,29,30,31"}
     }
   ]
 }
