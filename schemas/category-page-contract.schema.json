@@ -1,0 +1,17 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"urn:ecom-listing-agent:schema:category-page-contract:1.0",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schemaVersion","profileId","categoryId","verifiedAt","executionEnabled","fields","variantDimensions","evidence"],
+  "properties":{
+    "schemaVersion":{"const":"1.0"},
+    "profileId":{"type":"string","minLength":1},
+    "categoryId":{"type":"string","pattern":"^[0-9]+$"},
+    "verifiedAt":{"type":["string","null"],"pattern":"^\\d{4}-\\d{2}-\\d{2}$"},
+    "executionEnabled":{"type":"boolean"},
+    "fields":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["internalKey","platformLabel","required","control","status"],"properties":{"internalKey":{"type":"string","minLength":1},"platformLabel":{"type":["string","null"]},"required":{"type":["boolean","null"]},"control":{"enum":["input","select","multi-select","checkbox","upload","table","unknown"]},"status":{"enum":["pending","observed","write-verified","readback-verified"]},"notes":{"type":"string"}}}},
+    "variantDimensions":{"type":"array","minItems":2,"items":{"type":"object","additionalProperties":false,"required":["internalKey","platformLabel","status"],"properties":{"internalKey":{"type":"string"},"platformLabel":{"type":["string","null"]},"status":{"enum":["pending","observed","write-verified","readback-verified"]},"options":{"type":"array","items":{"type":"string"}}}}},
+    "evidence":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["kind","reference","redacted"],"properties":{"kind":{"enum":["screenshot","manual-observation","test-report"]},"reference":{"type":"string","minLength":1},"redacted":{"type":"boolean"}}}}
+  }
+}

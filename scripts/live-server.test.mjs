@@ -21,6 +21,7 @@ test('API rejects cross-origin mutations, invalid packages and all publish reque
  assert.equal((await f.post('jobs',{action:'publish'})).status,400)
  assert.equal((await f.state()).loaded,null)
 }finally{await f.cleanup()}})
+test('backup API exports and restores local business data with restart gate',async()=>{const f=await setup();try{await writeFile(join(f.root,'settings.json'),JSON.stringify({shopKey:'before'}));const backup=await(await fetch('http://127.0.0.1:'+f.app.server.address().port+'/api/live/backup')).json();assert.equal(backup.format,'ecom-workbench-backup');await writeFile(join(f.root,'settings.json'),JSON.stringify({shopKey:'changed'}));const restored=await f.post('restore',{backup,confirmed:true});assert.equal(restored.status,200);assert.equal((await restored.json()).restartRequired,true);assert.equal((await f.state()).restartRequired,true);assert.equal((await f.post('next-product-code',{})).status,409);assert.equal(JSON.parse(await readFile(join(f.root,'settings.json'),'utf8')).shopKey,'before')}finally{await f.cleanup()}})
 test('real-workflow dispatch is exclusive, source-bound and persisted without inventing published status',async()=>{
  let release,called=0;const gate=new Promise(r=>release=r)
  const f=await setup({run:async(page,source,config,args)=>{called++;assert.equal(source.product.id,input.product.id);assert.equal(config.shopBindings[0].mallId,'123');assert.equal(args.action,'inspect');args.onProgress({step:'readback'});await gate;return {status:'inspected',saved:false,published:false,report:{counts:{matched:1}}}}})

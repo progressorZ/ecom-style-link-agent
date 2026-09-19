@@ -1,0 +1,70 @@
+name: Build portable release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  windows-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.15.0
+          cache: npm
+      - run: npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+      - run: npm run check:mvp
+      - run: npm run test:adapter-manifests
+      - run: npm run build:app:pdd-tshirt:windows
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pdd-womenswear-tshirt-windows
+          path: |
+            release/*-windows-x64.zip
+            release/*-windows-x64.zip.sha256
+          if-no-files-found: error
+
+  macos-package:
+    runs-on: macos-14
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.15.0
+          cache: npm
+      - run: npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+      - run: npm run build:app:pdd-tshirt:macos
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pdd-womenswear-tshirt-macos
+          path: |
+            release/*-macos-universal.zip
+            release/*-macos-universal.zip.sha256
+          if-no-files-found: error
+
+  github-release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [windows-package, macos-package]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: pdd-womenswear-tshirt-*
+          path: release-assets
+          merge-multiple: true
+      - name: Publish GitHub Release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" release-assets/* --repo "${GITHUB_REPOSITORY}" --verify-tag --generate-notes --title "${GITHUB_REF_NAME}"

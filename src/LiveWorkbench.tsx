@@ -1,6 +1,7 @@
 import {useEffect,useState} from 'react'
 import './live-workbench.css'
 import ProductEntry from './ProductEntry'
+import DataBackup from './DataBackup'
 import {explainLiveMessage} from './live-messages'
 type Check={id:string;status:string;reason?:string;expected?:unknown;observed?:unknown}
 type Report={counts?:Record<string,number>;checks?:Check[];blockers?:{path:string;reason:string}[];shopIdentity?:{status:string}}
@@ -54,6 +55,7 @@ export default function LiveWorkbench(){
    </div>:<p className="live-empty">载入商品并准备好编辑页后，即可开始。</p>}
   </section>
   <section className="live-card"><h2>近期任务</h2>{state?.jobs.length?<ul className="live-history">{state.jobs.map(j=><li key={j.id}><span>{j.productCode} · {labels[j.action]}</span><time>{new Date(j.createdAt).toLocaleString()}</time><span>{j.status==='running'?'执行中':j.status==='completed'?'操作结束':'需检查'}</span><button onClick={()=>setActiveJob(j.id)}>查看结果</button>{j.editorUrl&&j.sourceHash&&j.status!=='running'&&j.action!=='publication-result'&&<button disabled={disabled||dirty||!state?.loaded||!state.pages.length} onClick={()=>void perform(async()=>{await request('jobs',{action:'recover-draft',sourceJobId:j.id});setActiveJob(null)})}>找回草稿并核对</button>}</li>)}</ul>:<p>还没有真实任务记录。</p>}</section>
+  <section className="live-card"><DataBackup storageKeys={['mvp-entry-v1']}/></section>
   <footer>单款 T 恤填表助手。图片内容、特殊资质和额外必填项由人工核实；请在拼多多手动发布并取得链接。<a href="?demo=1">打开旧版模拟演示</a></footer>
  </div>
 }

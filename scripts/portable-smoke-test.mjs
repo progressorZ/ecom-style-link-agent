@@ -20,6 +20,8 @@ try{
  const page=await fetch(origin+'/');if(!page.ok||!(await page.text()).includes('拼多多单款工作台'))throw new Error('发行版网页未正确加载')
  const generated=await(await fetch(origin+'/api/live/next-product-code',{method:'POST',headers:{origin,'content-type':'application/json'},body:'{}'})).json()
  if(!/^A\d{8}-\d{3}$/.test(generated.productCode??''))throw new Error('发行版 JSON 写入接口未连通：'+JSON.stringify(generated))
+ const backup=await(await fetch(origin+'/api/live/backup')).json()
+ if(backup.format!=='ecom-workbench-backup'||!Array.isArray(backup.entries))throw new Error('发行版备份接口未连通')
  console.log(`干净环境启动通过：网页 ${staticPort} → API ${apiPort}；生成货号 ${generated.productCode}`)
 }finally{
  try{if(grouped)process.kill(-child.pid,'SIGTERM');else child.kill('SIGTERM')}catch{}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion":"1.0",
+  "profileId":"pdd-board-shoes",
+  "categoryId":"201517965903",
+  "verifiedAt":null,
+  "executionEnabled":false,
+  "fields":[
+    {"internalKey":"title","platformLabel":null,"required":null,"control":"unknown","status":"pending","notes":"等待脱敏页面证据"},
+    {"internalKey":"brand","platformLabel":null,"required":null,"control":"unknown","status":"pending","notes":"等待脱敏页面证据"},
+    {"internalKey":"upperMaterial","platformLabel":null,"required":null,"control":"unknown","status":"pending"},
+    {"internalKey":"soleMaterial","platformLabel":null,"required":null,"control":"unknown","status":"pending"},
+    {"internalKey":"closureType","platformLabel":null,"required":null,"control":"unknown","status":"pending"},
+    {"internalKey":"toeStyle","platformLabel":null,"required":null,"control":"unknown","status":"pending"},
+    {"internalKey":"mainImages","platformLabel":null,"required":null,"control":"upload","status":"pending"},
+    {"internalKey":"detailImages","platformLabel":null,"required":null,"control":"upload","status":"pending"},
+    {"internalKey":"colorImages","platformLabel":null,"required":null,"control":"upload","status":"pending"},
+    {"internalKey":"shippingPromise","platformLabel":null,"required":null,"control":"unknown","status":"pending"}
+  ],
+  "variantDimensions":[
+    {"internalKey":"color","platformLabel":null,"status":"pending","options":[]},
+    {"internalKey":"size","platformLabel":null,"status":"pending","options":[]}
+  ],
+  "evidence":[]
+}

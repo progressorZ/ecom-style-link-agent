@@ -25,6 +25,8 @@
 
 > 当前范围是：拼多多中国站 → 女装/女士精品 → T 恤 → 单款商品。程序不会自动点击最终发布。批量上新、AI 识图、多平台和其他类目仍在后续规划中。
 
+当前工作台支持从 Excel/WPS 导入整款商品，并可一键备份和恢复本机业务资料。详细说明见 [本机备份、商品表格导入与自动发行](docs/62-backup-spreadsheet-and-release.md)。
+
 仓库正在用第二个类目验证可扩展架构：**拼多多板鞋上新助手**目前提供 Profile 驱动的资料录入、颜色 × 鞋码矩阵、本地校验和统一草稿导出。它仍是 `experimental`，尚未启用真实页面自动填写。开发者启动项目后可访问 <http://127.0.0.1:5173/?app=pdd-board-shoes>。
 
 ## 普通用户：5 步开始使用
@@ -33,8 +35,8 @@
 
 | 电脑 | 下载文件 | 启动文件 |
 |---|---|---|
-| Windows 10/11 64 位 | `pdd-womenswear-tshirt-v0.1.3-windows-x64.zip` | `Start-PDD-Assistant.cmd` |
-| Apple Silicon 或 Intel Mac | `pdd-womenswear-tshirt-v0.1.3-macos-universal.zip` | `Start-PDD-Assistant.command` |
+| Windows 10/11 64 位 | `pdd-womenswear-tshirt-v0.1.4-windows-x64.zip` | `Start-PDD-Assistant.cmd` |
+| Apple Silicon 或 Intel Mac | `pdd-womenswear-tshirt-v0.1.4-macos-universal.zip` | `Start-PDD-Assistant.command` |
 
 1. **完整解压 ZIP** 到普通文件夹，不要在压缩包预览窗口中直接运行。
 2. 双击启动文件。程序会打开本机工作台网页 `http://127.0.0.1:5173/`。

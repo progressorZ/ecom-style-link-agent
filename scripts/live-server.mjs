@@ -11,6 +11,7 @@ import {pathToFileURL} from 'node:url'
 import {chromium} from 'playwright'
 import {compileProductPackage} from './pdd-package-plan.mjs'
 import {runSingleWorkflow} from './pdd-single-workflow.mjs'
+import {createWorkbenchBackup,restoreWorkbenchBackup} from './workbench-backup.mjs'
 import {buildPackage,collectFormIssues,attributeLabels,formFromPackage} from '../src/mvp-form.ts'
 import {loadImageFiles} from './pdd-image-plan.mjs'
 import {resolveFreightProfile} from './pdd-freight-profile.mjs'
@@ -29,7 +30,7 @@ export async function launchMerchantBrowser(){
  throw new Error('未找到可用的商家浏览器。Windows 请安装或启用 Microsoft Edge/Google Chrome。'+failures.join('；'))
 }
 export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench'),launch=launchMerchantBrowser,run=runSingleWorkflow,reconcile=reconcileDraft}={}){
- let bundle=null,browser=null,busy=false,activeTask=Promise.resolve(),preferences=null
+ let bundle=null,browser=null,busy=false,restartRequired=false,activeTask=Promise.resolve(),preferences=null
  const jobs=new Map(),pages=new Map(),pageIds=new WeakMap()
  const staticPort=Number(process.env.ECOM_STATIC_PORT||5173)
  const allowedOrigins=new Set([`http://127.0.0.1:${staticPort}`,`http://localhost:${staticPort}`,'http://127.0.0.1:5173','http://localhost:5173','http://127.0.0.1:4173','http://localhost:4173','http://127.0.0.1:4318'])
@@ -37,7 +38,7 @@ export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench
  const persist=job=>{const snapshot=JSON.stringify(job,null,2);writes=writes.then(async()=>{await mkdir(root,{recursive:true});const temp=join(root,job.id+'.tmp');await writeFile(temp,snapshot,{mode:0o600});await rename(temp,join(root,job.id+'.json'))});return writes}
  const persistBundle=async()=>{await mkdir(root,{recursive:true});const temp=join(root,'bundle.tmp');await writeFile(temp,JSON.stringify({input:bundle.input,options:bundle.options,reuse:bundle.reuse,entryForm:bundle.entryForm}),{mode:0o600});await rename(temp,join(root,'bundle.json'))}
  const refreshPages=()=>{pages.clear();if(browser)for(const page of browser.pages()){if(page.isClosed())continue;let id=pageIds.get(page);if(!id){id=randomUUID();pageIds.set(page,id)}pages.set(id,page)}return [...pages].map(([id,page])=>({id,url:page.url()}))}
- const state=()=>({mode:'real',busy,loaded:bundle?{identity:bundle.plan.identity,shop:bundle.plan.bindings.shopBinding,title:bundle.input.listing.title,steps:bundle.plan.steps.map(s=>s.id),blockers:bundle.plan.blockers}:null,pages:refreshPages(),jobs:[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt))})
+ const state=()=>({mode:'real',busy,restartRequired,loaded:bundle?{identity:bundle.plan.identity,shop:bundle.plan.bindings.shopBinding,title:bundle.input.listing.title,steps:bundle.plan.steps.map(s=>s.id),blockers:bundle.plan.blockers}:null,pages:refreshPages(),jobs:[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt))})
  const loadHistory=async()=>{await mkdir(root,{recursive:true});for(const f of await readdir(root)){if(!/^[\da-f-]+\.json$/.test(f))continue;try{const j=JSON.parse(await readFile(join(root,f),'utf8'));if(j.status==='running'){j.status='needs_inspection';j.error='上次服务已结束，任务结果需人工核对；不会自动重跑'}jobs.set(j.id,j)}catch{}}}
  const ready=(async()=>{await loadHistory();try{preferences=JSON.parse(await readFile(join(root,'settings.json'),'utf8'))}catch{}try{const saved=JSON.parse(await readFile(join(root,'bundle.json'),'utf8'));const plan=compileProductPackage(saved.input,saved.options);if(plan.bindings.shopBinding)bundle={...saved,plan}}catch{}})()
  const entryContext=()=>preferences??(bundle?{shopKey:bundle.input.listing.shopKey,profileKey:bundle.input.listing.logistics.profileKey,options:bundle.options}:null)
@@ -49,6 +50,7 @@ export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench
    if(req.headers.origin&&!allowedOrigins.has(req.headers.origin))return send(403,{error:'请求来源不允许'})
    const path=new URL(req.url,'http://127.0.0.1').pathname
    if(req.method==='GET'&&path==='/api/live/state')return send(200,state())
+   if(req.method==='GET'&&path==='/api/live/backup')return send(200,await createWorkbenchBackup(root))
    const preview=/^\/api\/live\/assets\/([a-f0-9-]+\.(png|jpg))$/.exec(path)
    if(req.method==='GET'&&preview){try{const bytes=await readFile(join(root,'assets',preview[1]));res.writeHead(200,{'content-type':preview[2]==='png'?'image/png':'image/jpeg','cache-control':'private, max-age=3600','x-content-type-options':'nosniff'});return res.end(bytes)}catch{return send(404,{error:'本机图片已不存在，请重新选择'})}}
    if(req.method==='GET'&&path==='/api/live/product-templates'){
@@ -68,11 +70,16 @@ export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench
    }
    if(req.method!=='POST'||!allowedOrigins.has(req.headers.origin)||!req.headers['content-type']?.startsWith('application/json'))return send(403,{error:'需要来自本地工作台的JSON请求'})
    if(busy)return send(409,{error:'已有任务执行中，请等待结果'})
-   const maxBody=path==='/api/live/assets'?15*1024*1024:4*1024*1024
+   const maxBody=path==='/api/live/restore'?165*1024*1024:path==='/api/live/assets'?15*1024*1024:4*1024*1024
    let body='',size=0;for await(const chunk of req){size+=chunk.length;if(size>maxBody)return send(413,{error:'文件或数据过大，请压缩后重试'});body+=chunk}
    const data=JSON.parse(body||'{}')
    // Recheck after awaiting request body so simultaneous requests cannot start two jobs.
    if(busy)return send(409,{error:'已有任务执行中'})
+   if(path==='/api/live/restore'){
+    busy=true
+    try{if(data.confirmed!==true)throw new Error('恢复资料前需要明确确认');const result=await restoreWorkbenchBackup(root,data.backup);restartRequired=true;return send(200,result)}finally{busy=false}
+   }
+   if(restartRequired)return send(409,{error:'资料已经恢复，请关闭启动窗口并重新启动助手'})
    if(path==='/api/live/delete-template'){
     busy=true
     try{
