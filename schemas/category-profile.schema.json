@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://progressorz.github.io/ecom-style-link-agent/schemas/category-profile.schema.json",
+  "title": "Ecom Listing Category Profile Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "profiles"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/profile"}
+    }
+  },
+  "$defs": {
+    "attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "label", "required", "evidence"],
+      "properties": {
+        "key": {"type": "string", "pattern": "^[a-z][A-Za-z0-9]*$"},
+        "label": {"type": "string", "minLength": 1},
+        "required": {"type": "boolean"},
+        "evidence": {"enum": ["verified", "unverified"]}
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "platform", "categoryKey", "categoryPath", "displayName", "productNoun", "status", "variantDimensions", "attributeFields", "sizeMode", "defaults"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "platform": {"type": "string", "minLength": 1},
+        "categoryKey": {"type": "string", "minLength": 1},
+        "categoryPath": {"type": "string", "minLength": 1},
+        "displayName": {"type": "string", "minLength": 1},
+        "productNoun": {"type": "string", "minLength": 1},
+        "status": {"enum": ["experimental", "beta"]},
+        "variantDimensions": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "string", "minLength": 1}},
+        "attributeFields": {"type": "array", "items": {"$ref": "#/$defs/attribute"}},
+        "sizeMode": {"enum": ["apparel-chart", "footwear-size-reference"]},
+        "defaults": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["colors", "sizes"],
+          "properties": {"colors": {"type": "string"}, "sizes": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

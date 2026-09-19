@@ -31,6 +31,8 @@ adapters/<adapter-id>/
 
 当前运行代码仍位于 `scripts/`。迁移期允许 `adapter.json` 的 entrypoints 指向现有文件；新平台不要继续增加 `pdd-*` 式全局文件，应先建立自己的 Adapter 目录。详细字段见 [Adapter 贡献规范](docs/55-adapter-contribution-spec.md)。
 
+类目资料字段优先登记到 `config/category-profiles.json`，并通过 `schemas/category-profile.schema.json` 校验。Profile 描述商品事实；平台页面原文、选择器、枚举 ID 和控件依赖属于 Adapter 页面合同。没有真实证据时将字段标记为 `unverified`，且编译结果必须保持不可执行。
+
 ## 代码边界
 
 - `ProductPackage` 保存跨平台商品事实和刊登意图，平台字段 ID、DOM 选择器和平台枚举不得写入商品核心。

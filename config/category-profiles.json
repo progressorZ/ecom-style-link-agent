@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0",
+  "profiles": [
+    {
+      "id": "pdd-womenswear-tshirt",
+      "platform": "pdd",
+      "categoryKey": "womenswear.tshirt",
+      "categoryPath": "女装/女士精品 > T恤 > T恤",
+      "displayName": "拼多多女装 T 恤",
+      "productNoun": "衣服",
+      "status": "beta",
+      "variantDimensions": ["颜色", "尺码"],
+      "attributeFields": [
+        {"key":"fabricName","label":"面料俗称","required":true,"evidence":"verified"},
+        {"key":"material","label":"材质","required":true,"evidence":"verified"},
+        {"key":"composition","label":"成分含量","required":true,"evidence":"verified"},
+        {"key":"primaryStyle","label":"主风格","required":true,"evidence":"verified"},
+        {"key":"fashionElements","label":"流行元素","required":true,"evidence":"verified"},
+        {"key":"sleeveLength","label":"袖长","required":true,"evidence":"verified"},
+        {"key":"fit","label":"服装版型","required":true,"evidence":"verified"},
+        {"key":"garmentLength","label":"衣长","required":true,"evidence":"verified"}
+      ],
+      "sizeMode": "apparel-chart",
+      "defaults": {"colors":"白色,黑色","sizes":"S,M,L"}
+    },
+    {
+      "id": "pdd-board-shoes",
+      "platform": "pdd",
+      "categoryKey": "footwear.board-shoes",
+      "categoryPath": "板鞋（当前页面类目 ID 201517965903，完整路径待人工核对）",
+      "displayName": "拼多多板鞋",
+      "productNoun": "鞋款",
+      "status": "experimental",
+      "variantDimensions": ["颜色", "鞋码"],
+      "attributeFields": [
+        {"key":"upperMaterial","label":"鞋面材质","required":true,"evidence":"unverified"},
+        {"key":"soleMaterial","label":"鞋底材质","required":true,"evidence":"unverified"},
+        {"key":"closureType","label":"闭合方式","required":true,"evidence":"unverified"},
+        {"key":"toeStyle","label":"鞋头款式","required":true,"evidence":"unverified"},
+        {"key":"heelHeight","label":"鞋跟高度","required":false,"evidence":"unverified"},
+        {"key":"upperHeight","label":"鞋帮高度","required":false,"evidence":"unverified"},
+        {"key":"function","label":"功能","required":false,"evidence":"unverified"},
+        {"key":"applicablePeople","label":"适用人群","required":true,"evidence":"unverified"},
+        {"key":"season","label":"适用季节","required":false,"evidence":"unverified"},
+        {"key":"style","label":"风格","required":false,"evidence":"unverified"}
+      ],
+      "sizeMode": "footwear-size-reference",
+      "defaults": {"colors":"黑白,米白","sizes":"35,36,37,38,39,40"}
+    }
+  ]
+}

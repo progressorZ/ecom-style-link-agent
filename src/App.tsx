@@ -1,4 +1,5 @@
 import LiveWorkbench from './LiveWorkbench'
+import CategoryWorkbench from './CategoryWorkbench'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { initialProduct, parseNumericInput, totalStock, validateProduct, type Issue, type JobState, type Product } from './domain'
 import { MockDraft, differences } from './mock-draft'
@@ -158,4 +159,4 @@ function Field({ label, value, onChange, wide = false }: { label: string; value:
 function SelectField({ label, value, onChange, options }: { label: string; value: string; onChange: (value: string) => void; options: string[] }) { return <label className="field"><span>{label}</span><select value={value} onChange={(event) => onChange(event.target.value)}>{options.map((option) => <option key={option}>{option}</option>)}</select></label> }
 function wait(ms: number) { return new Promise((resolve) => setTimeout(resolve, ms)) }
 
-export default function App(){return new URLSearchParams(window.location.search).get("demo")==="1"?<DemoApp/>:<LiveWorkbench/>}
+export default function App(){const params=new URLSearchParams(window.location.search);if(params.get('app')==='pdd-board-shoes')return <CategoryWorkbench/>;return params.get("demo")==="1"?<DemoApp/>:<LiveWorkbench/>}

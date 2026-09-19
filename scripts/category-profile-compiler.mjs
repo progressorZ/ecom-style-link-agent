@@ -1,0 +1,6 @@
+import {readFile} from 'node:fs/promises'
+
+const registry=JSON.parse(await readFile(new URL('../config/category-profiles.json',import.meta.url),'utf8'))
+export function getProfile(id){const profile=registry.profiles.find(item=>item.id===id);if(!profile)throw new Error('CATEGORY_PROFILE_NOT_FOUND');return structuredClone(profile)}
+export function compileCategoryDraft(draft){if(!draft||typeof draft!=='object'||Array.isArray(draft))throw new Error('DRAFT_INVALID');const profile=getProfile(draft.profileId);const required=['productCode','title','brand'];if(required.some(key=>typeof draft[key]!=='string'||!draft[key].trim()))throw new Error('DRAFT_IDENTITY_INCOMPLETE');if(!Array.isArray(draft.variants)||!draft.variants.length)throw new Error('DRAFT_VARIANTS_EMPTY');const missing=profile.attributeFields.filter(field=>field.required&&!String(draft.attributes?.[field.key]??'').trim());if(missing.length)throw new Error('DRAFT_ATTRIBUTES_INCOMPLETE');return Object.freeze({version:'category-profile-plan-v1',profileId:profile.id,categoryKey:profile.categoryKey,source:structuredClone(draft),steps:['basic','attributes','variantMatrix','pricingInventory','media','shipping'],executable:false,blockers:[{reason:'category_page_contract_unverified'},{reason:'independent_readback_unimplemented'}]})}
+

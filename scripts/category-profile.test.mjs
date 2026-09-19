@@ -1,0 +1,10 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import {readFile} from 'node:fs/promises'
+import Ajv2020 from 'ajv/dist/2020.js'
+import {compileCategoryDraft,getProfile} from './category-profile-compiler.mjs'
+import {describeDiscoveryWorkflow} from './category-discovery-workflow.mjs'
+
+test('category profile registry follows the public extension schema',async()=>{const schema=JSON.parse(await readFile(new URL('../schemas/category-profile.schema.json',import.meta.url),'utf8')),registry=JSON.parse(await readFile(new URL('../config/category-profiles.json',import.meta.url),'utf8')),validate=new Ajv2020({allErrors:true,strict:true}).compile(schema);assert.equal(validate(registry),true,JSON.stringify(validate.errors));assert.equal(new Set(registry.profiles.map(item=>item.id)).size,registry.profiles.length);for(const profile of registry.profiles)assert.equal(new Set(profile.attributeFields.map(item=>item.key)).size,profile.attributeFields.length,`${profile.id} 属性键重复`)})
+test('board-shoes profile compiles a non-executable discovery plan',()=>{const profile=getProfile('pdd-board-shoes'),attributes=Object.fromEntries(profile.attributeFields.map(field=>[field.key,field.required?'待核对值':'']));const plan=compileCategoryDraft({profileId:profile.id,productCode:'SHOE-001',title:'测试板鞋',brand:'无品牌',attributes,variants:[{color:'黑白',size:'38'}]});assert.equal(plan.categoryKey,'footwear.board-shoes');assert.equal(plan.executable,false);assert.ok(plan.steps.includes('variantMatrix'))})
+test('discovery workflow forbids guessing and auto publish',()=>{const flow=describeDiscoveryWorkflow(getProfile('pdd-board-shoes'));assert.ok(flow.forbidden.includes('guess-platform-option'));assert.ok(flow.forbidden.includes('automatic-publish'))})

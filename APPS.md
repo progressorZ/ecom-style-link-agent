@@ -5,5 +5,6 @@
 | App | 表单范围 | Windows | macOS | 状态 |
 |---|---|---|---|---|
 | [拼多多女装 T 恤上新助手](apps/pdd-womenswear-tshirt/README.md) | 拼多多 CN / 女装 T 恤 / 单款填表 | beta | experimental | beta |
+| [拼多多板鞋上新助手](apps/pdd-board-shoes/README.md) | 拼多多 CN / 板鞋 / 资料整理与规格矩阵 | planned | planned | experimental |
 
 `APPS.md` 面向最终用户；[ADAPTERS.md](ADAPTERS.md) 面向开发者。新增表单时同时创建 `apps/<app-id>/app.json` 和对应 Adapter，或者明确引用一个已有 Adapter 的单一类目 Profile。

@@ -1,0 +1,16 @@
+{
+  "schemaVersion":"1.0",
+  "id":"pdd.browser.cn.board-shoes",
+  "displayName":"拼多多中国站板鞋浏览器 Adapter",
+  "version":"0.1.0",
+  "status":"experimental",
+  "platform":{"id":"pdd","displayName":"拼多多","site":"CN","accessMode":"browser"},
+  "compatibility":{"core":">=0.1.0 <0.3.0","node":">=24.15.0","operatingSystems":["windows","macos"]},
+  "categories":[{"key":"footwear.board-shoes","displayPath":"板鞋（类目 ID 201517965903，完整路径待实页确认）","status":"experimental","lastVerifiedAt":null,"evidenceDocs":["docs/60-pdd-board-shoes-discovery.md"]}],
+  "capabilities":[
+    {"id":"basic","status":"proposal"},{"id":"attributes","status":"proposal"},{"id":"variants","status":"experimental","notes":"本地颜色×鞋码矩阵已实现，平台控件待验证"},{"id":"pricing-inventory","status":"experimental","notes":"本地逐规格录入已实现，平台写入待验证"},{"id":"size-chart","status":"proposal"},{"id":"main-images","status":"proposal"},{"id":"variant-images","status":"proposal"},{"id":"detail-images","status":"proposal"},{"id":"video","status":"unsupported"},{"id":"logistics","status":"proposal"},{"id":"services","status":"proposal"},{"id":"save-draft","status":"proposal"},{"id":"reopen-draft","status":"proposal"},{"id":"readback","status":"proposal"},{"id":"publish","status":"unsupported","notes":"最终发布始终由商家操作"},{"id":"batch","status":"unsupported"}
+  ],
+  "entrypoints":{"layout":"adapter-package","compiler":"scripts/category-profile-compiler.mjs","workflow":"scripts/category-discovery-workflow.mjs"},
+  "safety":{"humanReviewRequired":true,"automaticPublish":false},
+  "maintainers":["@progressorZ"]
+}
