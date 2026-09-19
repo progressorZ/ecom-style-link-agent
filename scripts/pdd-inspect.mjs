@@ -3,6 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { createInterface } from 'node:readline/promises'
 import { stdin as input, stdout as output } from 'node:process'
+import {discoverPddSelectOptions} from './pdd-option-discovery.mjs'
 
 const startUrl = process.argv[2] || 'https://mms.pinduoduo.com/'
 const parsedUrl = new URL(startUrl)
@@ -82,8 +83,10 @@ try {
     ...observation,
     note: '本地只读页面勘察；未记录输入值、Cookie、localStorage 或完整 HTML。'
   }
+  const selectOptions = await discoverPddSelectOptions(target)
   await target.screenshot({ path: `${outputDir}/page.png`, fullPage: true })
   await writeFile(`${outputDir}/controls.json`, JSON.stringify(report, null, 2))
+  await writeFile(`${outputDir}/select-options.json`, JSON.stringify(selectOptions, null, 2))
   const ambiguous = report.fieldCandidates.filter((field) => field.candidates.length !== 1)
   await writeFile(`${outputDir}/locator-audit.json`, JSON.stringify({
     capturedAt: report.capturedAt,
@@ -94,6 +97,7 @@ try {
   }, null, 2))
   output.write(`\n采集完成：\n- ${outputDir}/page.png\n- ${outputDir}/controls.json\n`)
   output.write(`- ${outputDir}/locator-audit.json\n`)
+  output.write(`- ${outputDir}/select-options.json（自动读取下拉选项；不会选择或保存）\n`)
   await terminal.question('按 Enter 关闭勘察浏览器：')
 } finally {
   terminal.close()

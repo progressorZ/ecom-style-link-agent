@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test": "vitest run src",
     "test:api": "node --test scripts/mock-api.test.mjs",
-    "test:adapter": "node --test scripts/pdd-locator-contract.test.mjs scripts/pdd-observe.test.mjs",
+    "test:adapter": "node --test scripts/pdd-locator-contract.test.mjs scripts/pdd-observe.test.mjs scripts/pdd-option-discovery.test.mjs",
     "test:adapter-manifests": "node --test scripts/adapter-manifest.test.mjs scripts/category-profile.test.mjs",
     "test:watch": "vitest src",
     "mock:playwright": "node scripts/mock-playwright.mjs",

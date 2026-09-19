@@ -16,6 +16,7 @@ import {buildPackage,collectFormIssues,attributeLabels,formFromPackage} from '..
 import {loadImageFiles} from './pdd-image-plan.mjs'
 import {resolveFreightProfile} from './pdd-freight-profile.mjs'
 import {resolveShopBinding} from './pdd-shop-identity.mjs'
+import {discoverPddSelectOptions} from './pdd-option-discovery.mjs'
 
 const dataRoot=()=>resolve(process.env.ECOM_DATA_DIR||'.')
 export async function launchMerchantBrowser(){
@@ -199,6 +200,20 @@ export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench
     if(data.editorUrl!==undefined)editorIdentity(data.editorUrl)
     busy=true
     try{if(!browser){browser=await launch();browser.on('close',()=>{browser=null});const page=browser.pages()[0]??await browser.newPage();await page.goto(data.editorUrl??'https://mms.pinduoduo.com/goods/category')}const active=browser.pages().filter(p=>!p.isClosed()).at(-1);if(active?.bringToFront)await active.bringToFront();return send(200,state())}finally{busy=false}
+   }
+   if(path==='/api/live/discover-board-shoes'){
+    if(!browser)throw new Error('请先打开专用商家浏览器，并进入童鞋板鞋发布页')
+    busy=true
+    try{
+     refreshPages()
+     const candidates=[...pages.values()].filter(page=>{try{const url=new URL(page.url());return url.origin==='https://mms.pinduoduo.com'&&url.pathname==='/goods/goods_add/index'&&url.searchParams.get('id')==='201517965903'}catch{return false}})
+     if(candidates.length!==1)throw new Error(candidates.length?'检测到多个童鞋板鞋编辑页，请只保留一个':'没有找到童鞋板鞋编辑页；请在专用商家浏览器进入类目 ID 201517965903 的发布页')
+     const report=await discoverPddSelectOptions(candidates[0])
+     const folder=join(root,'discovery');await mkdir(folder,{recursive:true})
+     const filename=`board-shoes-options-${new Date().toISOString().replaceAll(':','-').replaceAll('.','-')}.json`
+     await writeFile(join(folder,filename),JSON.stringify(report,null,2),{mode:0o600})
+     return send(200,{report,filename,collected:report.results.filter(item=>item.status==='collected').length,unreadable:report.results.filter(item=>item.status==='unreadable').length})
+    }finally{busy=false}
    }
    if(path==='/api/live/jobs'){
     if(!['inspect','reopen-draft','recover-draft','publication-result','fill','repair','save-draft'].includes(data.action))throw new Error('不支持该动作；工作台没有自动发布功能')
