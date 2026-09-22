@@ -1,4 +1,4 @@
-export type LocalAsset={name:string;path:string;preview?:string}
+export type LocalAsset={name:string;path:string;assetId?:string;preview?:string;available?:boolean}
 type Request=(path:string,body?:unknown)=>Promise<unknown>
 
 async function base64(file:File){return await new Promise<string>((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(',')[1]);reader.onerror=()=>reject(new Error('图片读取失败'));reader.readAsDataURL(file)})}

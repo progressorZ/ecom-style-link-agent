@@ -5,7 +5,7 @@ import {recoveryReference,reconcileDraft} from './pdd-reconcile.mjs'
 import {createReview} from './pdd-review.mjs'
 import {createServer} from 'node:http'
 import {randomUUID} from 'node:crypto'
-import {mkdir,readFile,writeFile,rename,readdir} from 'node:fs/promises'
+import {access,mkdir,readFile,writeFile,rename,readdir,rm} from 'node:fs/promises'
 import {resolve,join} from 'node:path'
 import {pathToFileURL} from 'node:url'
 import {chromium} from 'playwright'
@@ -39,7 +39,7 @@ export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench
  const persist=job=>{const snapshot=JSON.stringify(job,null,2);writes=writes.then(async()=>{await mkdir(root,{recursive:true});const temp=join(root,job.id+'.tmp');await writeFile(temp,snapshot,{mode:0o600});await rename(temp,join(root,job.id+'.json'))});return writes}
  const persistBundle=async()=>{await mkdir(root,{recursive:true});const temp=join(root,'bundle.tmp');await writeFile(temp,JSON.stringify({input:bundle.input,options:bundle.options,reuse:bundle.reuse,entryForm:bundle.entryForm}),{mode:0o600});await rename(temp,join(root,'bundle.json'))}
  const refreshPages=()=>{pages.clear();if(browser)for(const page of browser.pages()){if(page.isClosed())continue;let id=pageIds.get(page);if(!id){id=randomUUID();pageIds.set(page,id)}pages.set(id,page)}return [...pages].map(([id,page])=>({id,url:page.url()}))}
- const state=()=>({mode:'real',busy,restartRequired,loaded:bundle?{identity:bundle.plan.identity,shop:bundle.plan.bindings.shopBinding,title:bundle.input.listing.title,steps:bundle.plan.steps.map(s=>s.id),blockers:bundle.plan.blockers}:null,pages:refreshPages(),jobs:[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt))})
+ const state=()=>({appId:'pdd-womenswear-tshirt',mode:'real',busy,restartRequired,loaded:bundle?{identity:bundle.plan.identity,shop:bundle.plan.bindings.shopBinding,title:bundle.input.listing.title,steps:bundle.plan.steps.map(s=>s.id),blockers:bundle.plan.blockers}:null,pages:refreshPages(),jobs:[...jobs.values()].sort((a,b)=>b.createdAt.localeCompare(a.createdAt))})
  const loadHistory=async()=>{await mkdir(root,{recursive:true});for(const f of await readdir(root)){if(!/^[\da-f-]+\.json$/.test(f))continue;try{const j=JSON.parse(await readFile(join(root,f),'utf8'));if(j.status==='running'){j.status='needs_inspection';j.error='上次服务已结束，任务结果需人工核对；不会自动重跑'}jobs.set(j.id,j)}catch{}}}
  const ready=(async()=>{await loadHistory();try{preferences=JSON.parse(await readFile(join(root,'settings.json'),'utf8'))}catch{}try{const saved=JSON.parse(await readFile(join(root,'bundle.json'),'utf8'));const plan=compileProductPackage(saved.input,saved.options);if(plan.bindings.shopBinding)bundle={...saved,plan}}catch{}})()
  const entryContext=()=>preferences??(bundle?{shopKey:bundle.input.listing.shopKey,profileKey:bundle.input.listing.logistics.profileKey,options:bundle.options}:null)
@@ -137,7 +137,7 @@ export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench
     busy=true
     try{
      const folder=join(root,'assets');await mkdir(folder,{recursive:true})
-     const store=async(source,name)=>{const bytes=await readFile(source instanceof URL?source:resolve(source));const destination=resolve(folder,randomUUID()+'.png');await writeFile(destination,bytes,{flag:'wx',mode:0o600});return {name,path:destination,preview:'/api/live/assets/'+destination.split('/').at(-1)}}
+     const store=async(source,name)=>{const bytes=await readFile(source instanceof URL?source:resolve(source));const assetId=randomUUID()+'.png',destination=resolve(folder,assetId);await writeFile(destination,bytes,{flag:'wx',mode:0o600});return {name,path:destination,assetId,preview:'/api/live/assets/'+assetId}}
      const front=await store(new URL('../examples/test-images/front.png',import.meta.url),'自动化测试正面图.png'),back=await store(new URL('../examples/test-images/back.png',import.meta.url),'自动化测试背面图.png')
      return send(200,{main:[front],detail:[back],sku:front,warning:'仅用于测试草稿，图片已标注勿上架'})
     }finally{busy=false}
@@ -158,8 +158,13 @@ export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench
     const bytes=Buffer.from(data.data,'base64')
     const ext=bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]))?'png':bytes[0]===255&&bytes[1]===216&&bytes[2]===255?'jpg':null
     if(!ext||bytes.length>3_000_000)throw new Error('当前模板仅支持不超过 3MB 的 JPG / PNG 图片')
-    const folder=join(root,'assets');await mkdir(folder,{recursive:true});const destination=resolve(folder,randomUUID()+'.'+ext)
-    await writeFile(destination,bytes,{flag:'wx',mode:0o600});return send(200,{name:data.name.slice(0,200),path:destination,preview:'/api/live/assets/'+destination.split('/').at(-1)})
+    const folder=join(root,'assets');await mkdir(folder,{recursive:true});const assetId=randomUUID()+'.'+ext,destination=resolve(folder,assetId)
+    await writeFile(destination,bytes,{flag:'wx',mode:0o600});return send(200,{name:data.name.slice(0,200),path:destination,assetId,preview:'/api/live/assets/'+assetId})
+   }
+   if(path==='/api/live/assets-status'){
+    if(!Array.isArray(data.assetIds)||data.assetIds.length>500||data.assetIds.some(id=>typeof id!=='string'||!/^[a-f0-9-]+\.(?:png|jpg)$/i.test(id)))throw new Error('素材编号列表无效')
+    const available=[];for(const id of [...new Set(data.assetIds)])try{await access(join(root,'assets',id));available.push(id)}catch{}
+    return send(200,{available,missing:data.assetIds.filter(id=>!available.includes(id))})
    }
    if(path==='/api/live/entry'){
     busy=true
@@ -201,6 +206,12 @@ export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench
     busy=true
     try{if(!browser){browser=await launch();browser.on('close',()=>{browser=null});const page=browser.pages()[0]??await browser.newPage();await page.goto(data.editorUrl??'https://mms.pinduoduo.com/goods/category')}const active=browser.pages().filter(p=>!p.isClosed()).at(-1);if(active?.bringToFront)await active.bringToFront();return send(200,state())}finally{busy=false}
    }
+   if(path==='/api/live/board-shoes-options'){
+    const latest=join(root,'discovery','board-shoes-options-latest.json')
+    if(data.action==='clear'){await rm(latest,{force:true});return send(200,{report:null})}
+    if(data.action!=='get')throw new Error('不支持的采集结果操作')
+    try{return send(200,{report:JSON.parse(await readFile(latest,'utf8'))})}catch(error){if(error.code==='ENOENT')return send(200,{report:null});throw error}
+   }
    if(path==='/api/live/discover-board-shoes'){
     if(!browser)throw new Error('请先打开专用商家浏览器，并进入童鞋板鞋发布页')
     busy=true
@@ -208,11 +219,12 @@ export function createLiveServer({root=resolve(dataRoot(),'output/live-workbench
      refreshPages()
      const candidates=[...pages.values()].filter(page=>{try{const url=new URL(page.url());return url.origin==='https://mms.pinduoduo.com'&&url.pathname==='/goods/goods_add/index'&&url.searchParams.get('id')==='201517965903'}catch{return false}})
      if(candidates.length!==1)throw new Error(candidates.length?'检测到多个童鞋板鞋编辑页，请只保留一个':'没有找到童鞋板鞋编辑页；请在专用商家浏览器进入类目 ID 201517965903 的发布页')
-     const report=await discoverPddSelectOptions(candidates[0])
+     const raw=await discoverPddSelectOptions(candidates[0]),report={...raw,profileId:'pdd-board-shoes',categoryId:'201517965903',contractVersion:'board-shoes-v1'}
      const folder=join(root,'discovery');await mkdir(folder,{recursive:true})
      const filename=`board-shoes-options-${new Date().toISOString().replaceAll(':','-').replaceAll('.','-')}.json`
      await writeFile(join(folder,filename),JSON.stringify(report,null,2),{mode:0o600})
-     return send(200,{report,filename,collected:report.results.filter(item=>item.status==='collected').length,unreadable:report.results.filter(item=>item.status==='unreadable').length})
+     await writeFile(join(folder,'board-shoes-options-latest.tmp'),JSON.stringify(report,null,2),{mode:0o600});await rename(join(folder,'board-shoes-options-latest.tmp'),join(folder,'board-shoes-options-latest.json'))
+     return send(200,{report,filename,collected:report.results.filter(item=>item.status==='collected').length,disabled:report.results.filter(item=>item.status==='disabled').length,unreadable:report.results.filter(item=>item.status==='unreadable').length})
     }finally{busy=false}
    }
    if(path==='/api/live/jobs'){

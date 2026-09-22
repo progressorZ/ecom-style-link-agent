@@ -80,7 +80,8 @@ test('package media task uploads, persists receipt, and independently verifies c
  const {inspectMediaJournal}=await import('./pdd-media-journal-read.mjs');const restored=await inspectMediaJournal(task.directory);assert.equal(restored.status,'recorded');assert.deepEqual(restored.receipt,disk.receipt)
  const plan=compileProductPackage(raw,{shopBindings}),step=plan.steps.find(s=>s.id==='carousel'),observed=await p.evaluate(observeCarousel)
  const result=await verifyMediaBindings({plan,step,editorUrl:p.url(),observed,receipts:[disk.receipt]});assert.equal(result.status,'references_matched');assert.equal(result.contentVerified,false)
- await assert.rejects(()=>executePackageMedia(p,raw,{stepId:'carousel',dryRun:false,journalRoot,shopBindings}),/RECONCILE_REQUIRED/);assert.equal(await p.evaluate(()=>window.uploadCalls),2)
+ const reused=await executePackageMedia(p,raw,{stepId:'carousel',dryRun:false,journalRoot,shopBindings})
+ assert.equal(reused.status,'media_upload_reused');assert.equal(reused.contentVerified,false);assert.equal(await p.evaluate(()=>window.uploadCalls),2)
  await p.locator('[class*=imageBox]').first().evaluate(e=>e.style.backgroundImage='url(https://img.pddpic.com/aid-image/aid-sr/replaced.jpg)')
  const changed=await verifyMediaBindings({plan,step,editorUrl:p.url(),observed:await p.evaluate(observeCarousel),receipts:[disk.receipt]});assert.equal(changed.status,'mismatch')
  // A shop change during upload leaves a claimed failed task, with completed uploads recorded.

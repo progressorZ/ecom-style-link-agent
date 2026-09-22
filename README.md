@@ -27,7 +27,7 @@
 
 当前工作台支持从 Excel/WPS 导入整款商品，并可一键备份和恢复本机业务资料。详细说明见 [本机备份、商品表格导入与自动发行](docs/62-backup-spreadsheet-and-release.md)。
 
-仓库正在用第二个类目验证可扩展架构：**拼多多板鞋上新助手**目前提供 Profile 驱动的资料录入、颜色 × 鞋码矩阵、本地校验和统一草稿导出。它仍是 `experimental`，尚未启用真实页面自动填写。开发者启动项目后可访问 <http://127.0.0.1:5173/?app=pdd-board-shoes>。
+仓库正在用第二个类目验证可扩展架构：**拼多多童鞋板鞋上新助手**目前提供 Profile 驱动的资料录入、颜色 × 鞋码矩阵、脚长/脚宽尺码表、本地校验和安全草稿导出。它仍是 `experimental`；实验性便携包只提供本地资料能力，尚未启用真实页面自动填写。开发者启动项目后可访问 <http://127.0.0.1:5173/?app=pdd-board-shoes>。
 
 ## 普通用户：5 步开始使用
 
@@ -35,11 +35,11 @@
 
 | 电脑 | 下载文件 | 启动文件 |
 |---|---|---|
-| Windows 10/11 64 位 | `pdd-womenswear-tshirt-v0.1.4-windows-x64.zip` | `Start-PDD-Assistant.cmd` |
-| Apple Silicon 或 Intel Mac | `pdd-womenswear-tshirt-v0.1.4-macos-universal.zip` | `Start-PDD-Assistant.command` |
+| Windows 10/11 64 位 | `pdd-womenswear-tshirt-v0.1.5-windows-x64.zip` | `Start-PDD-Assistant.cmd` |
+| Apple Silicon 或 Intel Mac | `pdd-womenswear-tshirt-v0.1.5-macos-universal.zip` | `Start-PDD-Assistant.command` |
 
 1. **完整解压 ZIP** 到普通文件夹，不要在压缩包预览窗口中直接运行。
-2. 双击启动文件。程序会打开本机工作台网页 `http://127.0.0.1:5173/`。
+2. 双击启动文件。程序会在 `127.0.0.1` 的空闲本机端口打开工作台网页。
 3. 第一次不知道怎么填时，点击 **“载入完整初始示例”**，照着示例换成自己的商品资料和图片。
 4. 点击 **“打开商家浏览器”**，登录拼多多商家后台并进入“女装/女士精品 → T 恤 → T 恤”的新商品编辑页。
 5. 回到工作台，依次点击 **“检查资料并载入”** 和 **“填写并核对”**。核对平台页面后，由商家手动发布。
@@ -66,7 +66,7 @@
 
 ```sh
 npm install
-npm run build
+npm run test:ci
 npm run workbench:start
 ```
 
@@ -75,10 +75,7 @@ npm run workbench:start
 常用检查：
 
 ```sh
-npm test
-npm run test:mvp
-npm run test:adapter-manifests
-npm run build
+npm run test:ci
 ```
 
 生成当前 App 的两个独立发行包：
@@ -86,6 +83,8 @@ npm run build
 ```sh
 npm run build:app:pdd-tshirt:windows
 npm run build:app:pdd-tshirt:macos
+npm run build:app:pdd-board-shoes:windows
+npm run build:app:pdd-board-shoes:macos
 ```
 
 生成结果位于 `release/`。模拟测试通过只说明代码契约成立；真实商家页会变化，发布前仍需执行对应平台的实页验证。
@@ -132,6 +131,7 @@ Adapter 使用以下成熟度：
 - 工作台只监听本机 `127.0.0.1`。
 - 图片上传、草稿保存或平台结果不明确时，程序停止并要求人工核对。
 - 第三方 Adapter 是可执行代码；使用前应检查来源和权限。
+- 商品资料、专用浏览器登录状态、备份范围和删除方法见 [隐私说明](PRIVACY.md)。
 - 安全问题报告方式见 [SECURITY.md](SECURITY.md)。
 
 ## 路线图

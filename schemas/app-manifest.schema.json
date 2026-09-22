@@ -4,7 +4,7 @@
   "title": "Ecom Listing Agent Independent App Manifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "id", "displayName", "version", "status", "adapter", "dataNamespace", "distributions", "safety"],
+  "required": ["schemaVersion", "id", "displayName", "version", "status", "adapter", "dataNamespace", "frontendEntry", "backendEntry", "entryPath", "packageDocuments", "distributions", "safety"],
   "properties": {
     "schemaVersion": {"const": "1.0"},
     "id": {"type": "string", "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"},
@@ -21,6 +21,15 @@
       }
     },
     "dataNamespace": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+    "frontendEntry": {"type": "string", "pattern": "^src/[A-Za-z0-9._/-]+\\.tsx$"},
+    "backendEntry": {"type": "string", "pattern": "^scripts/[A-Za-z0-9._/-]+\\.mjs$"},
+    "entryPath": {"type": "string", "pattern": "^/(?!/)[^#]*$"},
+    "packageDocuments": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/\\u4e00-\\u9fff-]+$"}
+    },
     "distributions": {
       "type": "array",
       "minItems": 2,

@@ -19,8 +19,8 @@
 发布示例：
 
 ```bash
-git tag v0.1.4
-git push origin v0.1.4
+git tag v0.1.5
+git push origin v0.1.5
 ```
 
 手动运行只生成 Actions Artifacts，不创建 GitHub Release；标签触发才会公开发行。

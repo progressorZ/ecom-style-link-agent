@@ -8,7 +8,22 @@
   "compatibility":{"core":">=0.1.0 <0.3.0","node":">=24.15.0","operatingSystems":["windows","macos"]},
   "categories":[{"key":"footwear.board-shoes","displayPath":"童鞋/婴儿鞋/亲子鞋 > 板鞋 > 板鞋","status":"experimental","lastVerifiedAt":"2026-09-19","evidenceDocs":["docs/60-pdd-board-shoes-discovery.md"]}],
   "capabilities":[
-    {"id":"basic","status":"proposal"},{"id":"attributes","status":"proposal"},{"id":"variants","status":"experimental","notes":"本地颜色×鞋码矩阵已实现，平台控件待验证"},{"id":"pricing-inventory","status":"experimental","notes":"本地逐规格录入已实现，平台写入待验证"},{"id":"size-chart","status":"proposal"},{"id":"main-images","status":"proposal"},{"id":"variant-images","status":"proposal"},{"id":"detail-images","status":"proposal"},{"id":"video","status":"unsupported"},{"id":"logistics","status":"proposal"},{"id":"services","status":"proposal"},{"id":"save-draft","status":"proposal"},{"id":"reopen-draft","status":"proposal"},{"id":"readback","status":"proposal"},{"id":"publish","status":"unsupported","notes":"最终发布始终由商家操作"},{"id":"batch","status":"unsupported"}
+    {"id":"basic","status":"experimental","notes":"本地基础资料录入、示例、模板和表格导入已实现；平台写入待验证"},
+    {"id":"attributes","status":"experimental","notes":"本地按类目 Profile 动态录入已实现；平台选项、联动和写入待验证"},
+    {"id":"variants","status":"experimental","notes":"本地颜色×童鞋尺码矩阵和 SKU 编码已实现；平台控件待验证"},
+    {"id":"pricing-inventory","status":"experimental","notes":"本地逐规格录入、整表粘贴、参考价和折扣已实现；平台写入待验证"},
+    {"id":"size-chart","status":"experimental","notes":"本地欧码、英码、通用和脚长脚宽尺码表已实现；平台模板和同步待验证"},
+    {"id":"main-images","status":"experimental","notes":"本机图片选择、复制和清单管理已实现；平台上传待验证"},
+    {"id":"variant-images","status":"experimental","notes":"本地每色规格图绑定已实现；平台上传和回读待验证"},
+    {"id":"detail-images","status":"experimental","notes":"本地详情图清单已实现；平台上传、顺序和回读待验证"},
+    {"id":"video","status":"unsupported","notes":"当前板鞋工作台不采集或上传商品视频"},
+    {"id":"logistics","status":"experimental","notes":"本地发货时效和偏远地区模板意图已实现；平台写入待验证"},
+    {"id":"services","status":"experimental","notes":"本地固定服务事实和可选承诺已实现；平台选项与写入待验证"},
+    {"id":"save-draft","status":"proposal","notes":"本地资料会自动保存；拼多多草稿保存尚未实现"},
+    {"id":"reopen-draft","status":"proposal","notes":"本地资料可恢复；拼多多草稿重新打开和核对尚未实现"},
+    {"id":"readback","status":"proposal","notes":"平台独立回读尚未实现"},
+    {"id":"publish","status":"unsupported","notes":"最终发布始终由商家操作"},
+    {"id":"batch","status":"unsupported","notes":"支持单款表格导入，不提供多商品批量上架"}
   ],
   "entrypoints":{"layout":"adapter-package","compiler":"scripts/category-profile-compiler.mjs","workflow":"scripts/category-discovery-workflow.mjs"},
   "safety":{"humanReviewRequired":true,"automaticPublish":false},

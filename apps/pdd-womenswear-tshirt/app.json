@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "id": "pdd-womenswear-tshirt",
   "displayName": "拼多多女装 T 恤上新助手",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "status": "beta",
   "adapter": {
     "id": "pdd.browser.cn.womenswear-tshirt",
@@ -11,6 +11,10 @@
     ]
   },
   "dataNamespace": "pdd-womenswear-tshirt",
+  "frontendEntry": "src/LiveWorkbench.tsx",
+  "backendEntry": "scripts/live-server.mjs",
+  "entryPath": "/",
+  "packageDocuments": ["PRIVACY.md", "使用说明.md"],
   "distributions": [
     {
       "target": "windows-x64",

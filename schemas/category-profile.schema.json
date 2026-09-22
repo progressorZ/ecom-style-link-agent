@@ -21,7 +21,7 @@
       "properties": {
         "key": {"type": "string", "pattern": "^[a-z][A-Za-z0-9]*$"},
         "label": {"type": "string", "minLength": 1},
-        "required": {"type": "boolean"},
+        "required": {"type": "boolean", "description": "工作台资料完整性要求；不表示平台页面带必填星号"},
         "evidence": {"enum": ["verified", "unverified"]}
       }
     },

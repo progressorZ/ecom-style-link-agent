@@ -1,6 +1,6 @@
 {
   "name": "ecom-style-link-agent",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "Apache-2.0",
   "private": true,
   "type": "module",
@@ -9,9 +9,12 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run src",
+    "test:scripts": "node scripts/run-script-tests.mjs",
+    "test:ci": "npm test && npm run test:scripts && npm run build",
     "test:api": "node --test scripts/mock-api.test.mjs",
     "test:adapter": "node --test scripts/pdd-locator-contract.test.mjs scripts/pdd-observe.test.mjs scripts/pdd-option-discovery.test.mjs",
     "test:adapter-manifests": "node --test scripts/adapter-manifest.test.mjs scripts/category-profile.test.mjs",
+    "check:repository-contracts": "node scripts/repository-contracts.mjs",
     "test:watch": "vitest src",
     "mock:playwright": "node scripts/mock-playwright.mjs",
     "mock:api": "node scripts/mock-api.mjs",
@@ -63,12 +66,15 @@
     "workbench:status": "node scripts/workbench-service.mjs status",
     "workbench:doctor": "node scripts/workbench-doctor.mjs",
     "test:mvp": "node --test scripts/mvp-entry.test.mjs scripts/live-server.test.mjs scripts/static-server.test.mjs scripts/pdd-review.test.mjs scripts/workbench-backup.test.mjs",
-    "test:portable-clean": "node scripts/portable-smoke-test.mjs release/pdd-womenswear-tshirt-v0.1.4-windows-x64",
+    "test:portable-clean": "node scripts/portable-smoke-test.mjs release/pdd-womenswear-tshirt-v0.1.5-windows-x64",
     "check:mvp": "node scripts/check-mvp.mjs",
     "build:windows-portable": "npm run build:app:pdd-tshirt:windows",
-    "build:app:pdd-tshirt:windows": "npm run build && node scripts/build-windows-portable.mjs",
-    "build:app:pdd-tshirt:macos": "npm run build && node scripts/build-macos-portable.mjs",
-    "build:app:pdd-tshirt:all": "npm run build:app:pdd-tshirt:windows && npm run build:app:pdd-tshirt:macos"
+    "build:app:pdd-tshirt:windows": "npm run build && node scripts/build-windows-portable.mjs pdd-womenswear-tshirt",
+    "build:app:pdd-tshirt:macos": "npm run build && node scripts/build-macos-portable.mjs pdd-womenswear-tshirt",
+    "build:app:pdd-tshirt:all": "npm run build:app:pdd-tshirt:windows && npm run build:app:pdd-tshirt:macos",
+    "build:app:pdd-board-shoes:windows": "npm run build && node scripts/build-windows-portable.mjs pdd-board-shoes",
+    "build:app:pdd-board-shoes:macos": "npm run build && node scripts/build-macos-portable.mjs pdd-board-shoes",
+    "build:app:pdd-board-shoes:all": "npm run build:app:pdd-board-shoes:windows && npm run build:app:pdd-board-shoes:macos"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.1.1",
@@ -83,6 +89,7 @@
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
+    "@types/node": "^24.10.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
     "jsdom": "30.0.1",

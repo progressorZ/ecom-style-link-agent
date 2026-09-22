@@ -6,9 +6,13 @@
   "status":"experimental",
   "adapter":{"id":"pdd.browser.cn.board-shoes","categoryKeys":["footwear.board-shoes"]},
   "dataNamespace":"pdd-board-shoes",
+  "frontendEntry":"src/CategoryWorkbench.tsx",
+  "backendEntry":"scripts/board-shoes-server.mjs",
+  "entryPath":"/",
+  "packageDocuments":["PRIVACY.md","docs/60-pdd-board-shoes-discovery.md"],
   "distributions":[
-    {"target":"windows-x64","format":"portable-zip","status":"planned","buildCommand":null},
-    {"target":"macos-universal","format":"portable-zip","status":"planned","buildCommand":null}
+    {"target":"windows-x64","format":"portable-zip","status":"experimental","buildCommand":"npm run build:app:pdd-board-shoes:windows"},
+    {"target":"macos-universal","format":"portable-zip","status":"experimental","buildCommand":"npm run build:app:pdd-board-shoes:macos"}
   ],
   "safety":{"humanReviewRequired":true,"automaticPublish":false}
 }

@@ -2,7 +2,7 @@
 
 这里收集面向不同电商平台和类目的独立填表工具，共享商品数据结构、浏览器执行基础能力和贡献规范。**目前真正可运行的只有拼多多中国站女装 T 恤单款上新助手**；其他平台和类目欢迎提出方案或贡献适配器，不能直接套用现有规则。
 
-第一次使用：到 [v0.1.2 Beta 发行页](https://github.com/progressorZ/ecom-style-link-agent/releases/tag/v0.1.2-beta) 下载对应系统的 ZIP，完整解压，阅读包内说明并双击启动脚本。Windows 包已内置 Node.js 和运行依赖；需要本机 Chrome 或 Edge，并由商家登录、核对、手动发布。详细步骤见 [使用说明](https://github.com/progressorZ/ecom-style-link-agent/blob/main/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md)。Windows 实机启动和变化中的平台页面仍需社区反馈。
+第一次使用：到 [Releases](https://github.com/progressorZ/ecom-style-link-agent/releases) 下载所需 App 与电脑系统对应的 ZIP，完整解压，阅读包内说明并双击启动脚本。Windows 包已内置 Node.js 和运行依赖；需要本机 Chrome 或 Edge，并由商家登录、核对、手动发布。详细步骤见 [使用说明](https://github.com/progressorZ/ecom-style-link-agent/blob/main/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md)。Windows 实机启动和变化中的平台页面仍需社区反馈。
 
 - 使用问题发到 **Q&A**；新平台、类目或流程建议发到 **Ideas**。
 - 可复现的程序错误请按 **Issues** 表单提交；明确的代码修改可发 **Pull Request**。

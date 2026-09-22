@@ -5,7 +5,7 @@
 | Adapter | 平台/站点 | 类目 | 接入方式 | 状态 | 自动发布 |
 |---|---|---|---|---|---|
 | [pdd.browser.cn.womenswear-tshirt](adapters/pdd-womenswear-tshirt/README.md) | 拼多多/CN | 女装/女士精品 > T恤 > T恤 | 浏览器 | beta | 否 |
-| [pdd.browser.cn.board-shoes](adapters/pdd-board-shoes/README.md) | 拼多多/CN | 板鞋（路径待实页确认） | 浏览器 | experimental | 否 |
+| [pdd.browser.cn.board-shoes](adapters/pdd-board-shoes/README.md) | 拼多多/CN | 童鞋/婴儿鞋/亲子鞋 > 板鞋 > 板鞋 | 浏览器 | experimental | 否 |
 
 ## 待贡献方向
 

@@ -1,4 +1,4 @@
-name: Build portable release
+name: Build portable releases
 
 on:
   workflow_dispatch:
@@ -7,12 +7,12 @@ on:
       - "v*"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  windows-package:
+  verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,20 +22,45 @@ jobs:
       - run: npm ci
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
-      - run: npm run check:mvp
-      - run: npm run test:adapter-manifests
-      - run: npm run build:app:pdd-tshirt:windows
+      - run: npx playwright install --with-deps chromium
+      - if: startsWith(github.ref, 'refs/tags/')
+        run: node scripts/release-version-check.mjs "${GITHUB_REF_NAME}"
+      - run: npm run test:ci
+
+  windows-packages:
+    needs: verify
+    runs-on: windows-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [pdd-womenswear-tshirt, pdd-board-shoes]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.15.0
+          cache: npm
+      - run: npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+      - run: node scripts/build-windows-portable.mjs "${{ matrix.app }}"
       - uses: actions/upload-artifact@v4
         with:
-          name: pdd-womenswear-tshirt-windows
+          name: ${{ matrix.app }}-windows-x64
           path: |
-            release/*-windows-x64.zip
-            release/*-windows-x64.zip.sha256
+            release/${{ matrix.app }}-*-windows-x64.zip
+            release/${{ matrix.app }}-*-windows-x64.zip.sha256
           if-no-files-found: error
 
-  macos-package:
+  macos-packages:
+    needs: verify
     runs-on: macos-14
-    timeout-minutes: 25
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [pdd-womenswear-tshirt, pdd-board-shoes]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -45,23 +70,25 @@ jobs:
       - run: npm ci
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
-      - run: npm run build:app:pdd-tshirt:macos
+      - run: node scripts/build-macos-portable.mjs "${{ matrix.app }}"
       - uses: actions/upload-artifact@v4
         with:
-          name: pdd-womenswear-tshirt-macos
+          name: ${{ matrix.app }}-macos-universal
           path: |
-            release/*-macos-universal.zip
-            release/*-macos-universal.zip.sha256
+            release/${{ matrix.app }}-*-macos-universal.zip
+            release/${{ matrix.app }}-*-macos-universal.zip.sha256
           if-no-files-found: error
 
   github-release:
     if: startsWith(github.ref, 'refs/tags/')
-    needs: [windows-package, macos-package]
+    needs: [windows-packages, macos-packages]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/download-artifact@v4
         with:
-          pattern: pdd-womenswear-tshirt-*
+          pattern: "pdd-*"
           path: release-assets
           merge-multiple: true
       - name: Publish GitHub Release assets

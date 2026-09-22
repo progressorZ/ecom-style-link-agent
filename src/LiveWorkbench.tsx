@@ -22,8 +22,8 @@ export default function LiveWorkbench(){
  const [reviewFlags,setReviewFlags]=useState<Record<string,boolean>>({}),[reviewNote,setReviewNote]=useState('')
  useEffect(()=>{setReviewFlags({});setReviewNote('')},[activeJob,state?.jobs[0]?.id])
  const latest=state?.jobs.find(j=>j.id===activeJob)??state?.jobs.find(j=>j.productCode===state.loaded?.identity.productCode),report=latest?.result?.report
- return <div className="live-workbench">
-  <nav className="category-nav" aria-label="工作台切换"><span>女装 T 恤稳定工作台</span><a href="?app=pdd-board-shoes">板鞋实验工作台</a></nav>
+ return <div className="live-workbench" data-ecom-app="pdd-womenswear-tshirt">
+  {!import.meta.env.VITE_ECOM_APP_ID&&<nav className="category-nav" aria-label="工作台切换"><span>女装 T 恤稳定工作台</span><a href="?app=pdd-board-shoes">板鞋实验工作台</a></nav>}
   <header className="live-top"><div><span className="live-eyebrow">服装商品上新 · MVP</span><h1>拼多多单款工作台</h1><p>录入资料 → 自动填表 → 核对 → 人工发布。一次处理一款 T 恤。</p></div><span className={'live-badge '+(state?'connected':'')}>{state?'本机服务已连接':'等待后台服务'}</span></header>
   {error&&<div className="live-error" role="alert">{error}<button onClick={()=>{setError('');void refresh()}}>重新连接</button></div>}
   <ProductEntry disabled={disabled} request={request} onDirty={()=>setDirty(true)} onLoaded={()=>{setDirty(false);setActiveJob(null);void refresh()}}/>

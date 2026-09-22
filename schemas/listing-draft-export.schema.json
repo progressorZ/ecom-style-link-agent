@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://progressorz.github.io/ecom-style-link-agent/schemas/listing-draft-export.schema.json",
+  "title": "Portable listing draft export",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "profile", "product", "variants", "sizeConfiguration", "assets", "listing", "validation", "execution"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schemaVersion": {"const": "ecom-listing-draft/1.0"},
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "categoryKey", "categoryPath", "status"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "categoryKey": {"type": "string", "minLength": 1},
+        "categoryPath": {"type": "string", "minLength": 1},
+        "status": {"enum": ["experimental", "beta"]}
+      }
+    },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productCode", "title", "brand", "attributes"],
+      "properties": {
+        "productCode": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1, "maxLength": 60},
+        "brand": {"type": "string", "minLength": 1},
+        "attributes": {"type": "object", "additionalProperties": {"type": "string"}}
+      }
+    },
+    "variants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["color", "size", "merchantSku", "groupPrice", "singlePrice", "stock", "enabled"],
+        "properties": {
+          "color": {"type": "string", "minLength": 1},
+          "size": {"type": "string", "minLength": 1},
+          "merchantSku": {"type": "string", "minLength": 1},
+          "groupPrice": {"$ref": "#/$defs/money"},
+          "singlePrice": {"$ref": "#/$defs/money"},
+          "stock": {"type": "string", "pattern": "^[0-9]+$"},
+          "enabled": {"type": "boolean"}
+        }
+      }
+    },
+    "sizeConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["system", "chartEnabled", "range", "columns", "rows", "syncToDetail"],
+      "properties": {
+        "system": {"enum": ["eu", "uk", "general", "custom"]},
+        "chartEnabled": {"type": "boolean"},
+        "range": {"type": "boolean"},
+        "columns": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["footLength", "footWidth"],
+          "properties": {"footLength": {"type": "boolean"}, "footWidth": {"type": "boolean"}}
+        },
+        "rows": {"type": "array", "items": {"$ref": "#/$defs/sizeRow"}},
+        "syncToDetail": {"type": "boolean"}
+      }
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["main", "auxiliary", "packageLabels", "detail", "byColor"],
+      "properties": {
+        "main": {"type": "array", "minItems": 1, "maxItems": 10, "items": {"$ref": "#/$defs/asset"}},
+        "auxiliary": {"type": "array", "maxItems": 10, "items": {"$ref": "#/$defs/asset"}},
+        "packageLabels": {"type": "array", "maxItems": 10, "items": {"$ref": "#/$defs/asset"}},
+        "detail": {"type": "array", "maxItems": 50, "items": {"$ref": "#/$defs/asset"}},
+        "byColor": {"type": "object", "additionalProperties": {"$ref": "#/$defs/asset"}}
+      }
+    },
+    "listing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "pricing", "inventoryDeduction", "shippingPromise", "services"],
+      "properties": {
+        "platform": {"type": "string", "minLength": 1},
+        "pricing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["referencePrice", "multiItemDiscount"],
+          "properties": {
+            "referencePrice": {"$ref": "#/$defs/money"},
+            "multiItemDiscount": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["count", "discount"],
+              "properties": {"count": {"const": 2}, "discount": {"type": "string", "pattern": "^[5-9](?:\\.[0-9])?$"}}
+            }
+          }
+        },
+        "inventoryDeduction": {"const": "payment_success"},
+        "shippingPromise": {"enum": ["same_day_handover", "24h_handover", "48h_handover"]},
+        "services": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sevenDayReturns", "authenticityPromise", "goodsType", "secondHand", "customized", "presale", "groupSize", "remoteAreaTemplate"],
+          "properties": {
+            "sevenDayReturns": {"type": "boolean"},
+            "authenticityPromise": {"type": "boolean"},
+            "goodsType": {"const": "ordinary"},
+            "secondHand": {"const": false},
+            "customized": {"const": false},
+            "presale": {"const": false},
+            "groupSize": {"const": 2},
+            "remoteAreaTemplate": {"type": "string"}
+          }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocking", "verification"],
+      "properties": {
+        "blocking": {"type": "array", "maxItems": 0},
+        "verification": {"type": "array", "items": {"$ref": "#/$defs/verificationIssue"}}
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "reason"],
+      "properties": {"enabled": {"const": false}, "reason": {"type": "string", "minLength": 1}}
+    }
+  },
+  "$defs": {
+    "money": {"type": "string", "pattern": "^[0-9]+(?:\\.[0-9]{1,2})?$"},
+    "assetId": {"type": "string", "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\.(?:png|jpg)$"},
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "assetId", "localReference"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "assetId": {"$ref": "#/$defs/assetId"},
+        "localReference": {"type": "string", "pattern": "^assets/[a-fA-F0-9-]+\\.(?:png|jpg)$"}
+      }
+    },
+    "sizeRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["size", "footLengthMin", "footLengthMax", "footWidthMin", "footWidthMax"],
+      "properties": {
+        "size": {"type": "string", "minLength": 1},
+        "footLengthMin": {"type": "string"},
+        "footLengthMax": {"type": "string"},
+        "footWidthMin": {"type": "string"},
+        "footWidthMax": {"type": "string"}
+      }
+    },
+    "verificationIssue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "message", "kind"],
+      "properties": {
+        "field": {"type": "string", "minLength": 1},
+        "message": {"type": "string", "minLength": 1},
+        "kind": {"const": "verification"}
+      }
+    }
+  }
+}

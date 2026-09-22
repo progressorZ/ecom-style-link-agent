@@ -11,7 +11,7 @@ const appSchema=JSON.parse(await readFile(resolve(root,'schemas/app-manifest.sch
 const ajv=new Ajv2020({allErrors:true,strict:true});addFormats(ajv)
 const validate=ajv.compile(schema)
 const validateApp=ajv.compile(appSchema)
-const adapterIds=[]
+const adapterIds=[],adaptersById=new Map()
 
 test('all adapter manifests are valid, unique and point to existing evidence and entrypoints',async()=>{
  const dirs=(await readdir(resolve(root,'adapters'),{withFileTypes:true})).filter(entry=>entry.isDirectory())
@@ -20,7 +20,7 @@ test('all adapter manifests are valid, unique and point to existing evidence and
  for(const dir of dirs){
   const path=join(root,'adapters',dir.name,'adapter.json'),manifest=JSON.parse(await readFile(path,'utf8'))
   assert.equal(validate(manifest),true,`${path}: ${ajv.errorsText(validate.errors)}`)
-  ids.push(manifest.id);adapterIds.push(manifest.id)
+  ids.push(manifest.id);adapterIds.push(manifest.id);adaptersById.set(manifest.id,{manifest,path})
   assert.equal(new Set(manifest.capabilities.map(item=>item.id)).size,manifest.capabilities.length,`${manifest.id} 能力重复`)
   for(const file of [manifest.entrypoints.compiler,manifest.entrypoints.workflow,...manifest.categories.flatMap(category=>category.evidenceDocs)]){
    const target=resolve(root,file)
@@ -41,7 +41,8 @@ test('independent app manifests reference one known adapter and declare both OS 
   assert.equal(validateApp(manifest),true,`${path}: ${ajv.errorsText(validateApp.errors)}`)
   ids.push(manifest.id);namespaces.push(manifest.dataNamespace)
   assert.ok(adapterIds.includes(manifest.adapter.id),`${manifest.id} 引用了未知 Adapter`)
-  const adapter=JSON.parse(await readFile(join(root,'adapters',dir.name,'adapter.json'),'utf8'))
+  const adapter=adaptersById.get(manifest.adapter.id)?.manifest
+  assert.ok(adapter,`${manifest.id} 引用了未知 Adapter`)
   assert.ok(manifest.adapter.categoryKeys.every(key=>adapter.categories.some(category=>category.key===key)),`${manifest.id} 引用了未知类目 Profile`)
   assert.deepEqual(new Set(manifest.distributions.map(item=>item.target)),new Set(['windows-x64','macos-universal']),`${manifest.id} 必须分别声明 Windows 和 macOS 包`)
   for(const distribution of manifest.distributions)if(distribution.buildCommand){const script=distribution.buildCommand.replace(/^npm run /,'');assert.ok(packageJson.scripts[script],`${manifest.id} 构建命令不存在`) }
