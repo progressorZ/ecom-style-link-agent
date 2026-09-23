@@ -3,6 +3,11 @@ const defaultLabels=Object.freeze([
  '适用季节','适用人群','功能','风格','制作工艺','是否加绒','商品资质','童鞋尺码'
 ])
 
+function discoveryErrorReason(error){
+ const message=error instanceof Error?error.message:String(error)
+ return message.match(/\b[A-Z][A-Z0-9_]{2,}\b/)?.[0]??message.split('\n')[0]
+}
+
 function resolveSelect({label,target=false}){
  const visible=element=>{const box=element.getBoundingClientRect(),style=getComputedStyle(element);return box.width>0&&box.height>0&&style.display!=='none'&&style.visibility!=='hidden'}
  const clean=value=>String(value??'').replace(/\s+/g,' ').trim()
@@ -58,6 +63,7 @@ export async function discoverPddSelectOptions(page,{labels=defaultLabels}={}){
    if(page.url()!==beforeUrl)throw new Error('PAGE_CHANGED')
    await page.locator('[role=listbox]:visible').waitFor({state:'visible',timeout:3000})
    const options=await readAllOptions(page)
+   if(!options.length)throw new Error('LISTBOX_OPTIONS_EMPTY')
    await page.keyboard.press('Escape')
    await page.locator('[role=listbox]:visible').waitFor({state:'hidden',timeout:3000}).catch(()=>{})
    const after=await page.evaluate(resolveSelect,{label})
@@ -65,7 +71,7 @@ export async function discoverPddSelectOptions(page,{labels=defaultLabels}={}){
    results.push({label,status:'collected',currentValue:before.value,options})
   }catch(error){
    await page.keyboard.press('Escape').catch(()=>{})
-   results.push({label,status:'unreadable',reason:error instanceof Error?error.message:String(error),options:[]})
+   results.push({label,status:'unreadable',reason:discoveryErrorReason(error),options:[]})
   }
  }
  return {capturedAt:new Date().toISOString(),page:`${url.origin}${url.pathname}`,readOnly:true,results}
