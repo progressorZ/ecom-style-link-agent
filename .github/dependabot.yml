@@ -9,8 +9,22 @@ updates:
       timezone: Asia/Shanghai
     open-pull-requests-limit: 5
     groups:
+      react-runtime:
+        applies-to: version-updates
+        patterns:
+          - react
+          - react-dom
+          - "@types/react"
+          - "@types/react-dom"
       npm-development:
         dependency-type: development
+        exclude-patterns:
+          - "@types/react"
+          - "@types/react-dom"
+    ignore:
+      - dependency-name: "@types/node"
+        update-types:
+          - "version-update:semver-major"
   - package-ecosystem: github-actions
     directory: /
     schedule:
